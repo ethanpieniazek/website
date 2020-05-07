@@ -1,0 +1,202 @@
+---
+title: 'Project 2: Modeling'
+author: "Ethan Pieniazek"
+date: 'May 1, 2020'
+output:
+  pdf_document:
+    toc: no
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, fig.align = "center", warning = F, message = F,
+tidy=TRUE, tidy.opts=list(width.cutoff=60), R.options=list(max.print=100))
+```
+```{r}
+library(tidyverse)
+library(lmtest)
+library(sandwich)
+covid <- read.csv('//Users/bitoFLO/Desktop/Website/content/1_county_level_confirmed_cases(1).csv', header=T, na.strings=c("","NA"))
+covid <-covid %>% na.omit()
+```
+
+*The dataset I found collected by John Hopkins University (Johns Hopkins University's COVID-19 tracking project) contains data relevant to the novel coronavirus pertaining to the United States. The data concerns confirmed cases, deaths, confirmed cases per 100,000 people, and deaths per 100,000 people for various counties in each state as of April 21st, 2020. The total population for each county is also recorded and these counties are further classified into one of six urbanization categories varying from ‘non-core’ to ‘large central metropolitan’. There are 2812 observations, although only 2756 had values for all variables listed, so 56 observations were omitted since they contained NA's for at least one of the variables of interest. An important consideration is that this dataset reflects the availability of COVID-19 tests rather than true infection rates. Likewise, this data reveals the results of the tests for those that were able to be tested. Certain counties will have more access to these tests while others will have limited access, so this should also be taken into consideration.*
+
+# MANOVA
+```{R}
+mancovid<-manova(cbind(total_population,deaths,confirmed,deaths_per_100000,confirmed_per_100000)~NCHS_urbanization, data=covid)
+summary(mancovid)
+summary.aov(mancovid)
+pairwise.t.test(covid$total_population,covid$NCHS_urbanization, p.adj="none")
+pairwise.t.test(covid$deaths,covid$NCHS_urbanization, p.adj="none")
+pairwise.t.test(covid$confirmed,covid$NCHS_urbanization, p.adj="none")
+pairwise.t.test(covid$deaths_per_100000,covid$NCHS_urbanization, p.adj="none")
+pairwise.t.test(covid$confirmed_per_100000,covid$NCHS_urbanization, p.adj="none")
+#81 tests performed total
+1-.95^81
+0.9843104/81
+```
+
+*The first test performed was the MANOVA to determine if any of the response variables (total_populations, deaths, confirmed, confirmed_per_100000, and deaths_per_100000) differed based on the categorical variable 'NCHS_urbanization'. It tested whether the means of the groups were equal. The MANOVA came back significant indicating at least one of the urbanization categories differed for one of the response variables, Pillai trace = .443, pseudo F(5,13750) = 53.424, p < .0001.*
+
+*Univariate ANOVAs were then conducted for each response variable: total_populations, deaths, confirmed, confirmed_per_100000, and deaths_per_100000 to find which ones showed a mean difference across the groups. All responses were found to be significant using the bonferroni method to control for the type-I error; F = 346.17 with p < .0001, F = 21.485 with p < .0001, F = 43.69 with p < .0001, F = 19.987 with p < .0001, and F = 27.949 with p < .0001 respectively. The post-hoc t-tests tested to see which urbanization categories differed among the five response variables. The large central metro was shown to differ from the five other groups among every response variable when using the bonferroni correction of .01215. It was interesting to find that among the six urbanization categories, only the large central metro differed from the others in number of deaths from COVID-19. The large fringe metro was also showed significant differences between the other categories when variables such as confirmed cases, deaths per 100,000, and confirmed cases per 100,000 were concerned. Another interesting significant difference in means is between ‘non-core’ and ‘small metro’ for the response confirmed cases per 100,000, even though they are not significantly different for confirmed cases.*
+
+*All in all, 81 tests were conducted and the probability of making at least one type-I error is extremely high at 98%. This is why an adjusted bonferroni significance level of .012 was used in order to keep type-I error rate at 5%. Most likely the assumption for random sampling and independent observations was not met because of testing being largely due to the amount of resources available for each particular county. When extreme outliers are concerned among the response variables, it is apparent the large central metro meets this criterion for every single post-hot t-test. However, the great number of observations may have still resulted in multivariate normallity.* 
+
+# Randomization Test (PERMANOVA)
+```{R}
+library(vegan)
+coviddists<- covid %>% select(confirmed_per_100000, total_population) %>% dist()
+adoniscovid<- adonis(coviddists~NCHS_urbanization, data=covid)
+adoniscovid
+qplot(adoniscovid$f.perms)+geom_vline(xintercept = 346.17,color = "red")+scale_x_log10()+
+  ggtitle("Plotted Null Distribution and Test Statistic (Logarithmic Scale)")+ 
+  xlab("F-stat permutations")+ theme(plot.title = element_text(hjust = 0.5))
+```
+
+*The PERMANOVA was conducted because of the ease of use for conducting an effective randomization test via the ‘vegan’ package. Using the ‘adonis’ function only two lines of code were needed to perform a randomization test with 999 permutations. Another reason the PERMANOVA was ideal was the nice departure from the MANOVA it offered since the endless assumptions one must meet (that are often violated) for a MANOVA are non-existent in the PERMANOVA.*
+
+*H0: The multivariate means of the distances between total population and confirmed cases per 100,000 for each of the urbanization categories are equal.*
+
+*HA: At least one of the urbanization categories differs in the multivariate means for the distances between total population and confirmed cases per 100,000.*
+
+*There is shown to be a significant difference so one can reject the null hypothesis. The multivariate means of the distances for at least one of the urbanization categories is not equal (F = 346.17, p < .001). It is interesting to see this result especially when using the 'confirmed per 100,000' variable that puts the distances between this variable and the total populations of each county on a more even playing field.*  
+
+# Linear Regression Model
+```{R}
+covid$total_population_c<-covid$total_population-mean(covid$total_population,na.rm=TRUE)
+covid$NCHS_urbanization<- relevel(covid$NCHS_urbanization, ref = "Medium metro")
+linear<-lm(confirmed ~ total_population_c * NCHS_urbanization, data=covid); summary(linear)
+covid %>% ggplot(aes(total_population_c,confirmed))+
+  geom_point(aes(color=NCHS_urbanization))+geom_smooth(method = 'lm',se = F)
+resids<- lm(confirmed~total_population_c, data=covid)$residuals
+fitted<- lm(confirmed~total_population_c, data=covid)$fitted.values
+shapiro.test(resids)
+ggplot()+geom_point(aes(fitted,resids))+geom_hline(yintercept= 0, color= "green")
+ggplot(linear,aes(total_population_c,confirmed))+geom_point()+geom_smooth(method=lm,se=F)
+bptest(linear)
+coeftest(linear, vcov= vcovHC(linear))
+(sum((covid$confirmed-mean(covid$confirmed))^2)-sum(linear$residuals^2))/sum((covid$confirmed-mean(covid$confirmed))^2)
+```
+
+*The intercept of regressing 'confirmed' on the predictors 'NCHS_urbanization' and 'total_population_c' tell how much each observation differed from the mean value for 'total_population'. The intercept summarizes the value for 'confirmed' (126.3) when the reference group 'medium metro' has a 'total_population' equal to the mean. The coefficient 'total_population_c' (.001633) shows confirmed cases increase as the total population increases. The coefficient 'NCHS_urbanization large fringe metro' and 'NCHS_urbanization small metro' show these two urbanization categories on average will have increased confirmed cases from the reference group opposed to the other three categories The interactions shows if the effect of 'total_population_c' differ on the level of urbanization category. 'Total_population_c:NCHS_urbanization large central metro' and 'total_population_c:NCHS_urbanization large fringe metro' were the two interactions that were both positive and significant.*
+
+*After conducting a Shapiro-Wilk normality test, it was apparent this model is not normally distributed since the null hypothesis can be rejected (p<.05). When testing for linearity a scatterplot was used and after eyeballing the pattern of the points and where they were clustered together this assumption also appears to be violated. Homoscedasticity does not seem to be met as the points fan outwards, and the Breuch-Pagan test proves this (p<.05), therefore the null hypothesis for homoscedasticity can also be rejected.*
+
+*Due to heteroskedasticity, robust standard errors were appropriate to incorporate into the model. When these were incorporated the 'large central metro' was no longer significant along with the interactions 'total_population_c:NCHS_urbanization large central metro' and 'total_population_c:NCHS_urbanization large fringe metro'. 'Total_population_c' remained significant as the standard error and p-value both decreased (p<.001). 'Total_population_c:NCHS_urbanization large fringe metro' also remained significant, but standard error increased along with the p-value.*
+
+*After calculating the R-squared value it showed that 0.395 of the variation in confirmed  cases could be explained by the model including the two predictors, urbanization category and total population of the county.*
+
+# Bootstrapped Standard Errors
+```{R}
+linear<-lm(confirmed ~ total_population_c * NCHS_urbanization, data=covid)
+resids<- lm(confirmed~total_population_c, data=covid)$residuals
+fitted<- lm(confirmed~total_population_c, data=covid)$fitted.values
+resid_resample<- replicate(5000,{
+  new_resids<-sample(resids,replace=TRUE)
+  covid$new_y<-fitted+new_resids
+  linearresid<- lm(new_y~total_population_c*NCHS_urbanization,data=covid)
+  coef(linearresid)
+})
+resid_resample%>% t%>% as.data.frame%>% summarize_all(sd)
+coeftest(linear)[,1:2]
+coeftest(linear, vcovHC(linear))[,1:2]
+```
+
+*After bootstrapping the residuals of the linear model, the coefficient estimates remained the same as those in the original model and the model without the robust standard error bars. The changes were found in the standard errors as well as the significance level. The robust standard errors now offer a more conservative consensus for what coefficients are significant for the model. With the outliers in the dataset, it is best practice to go off the model including the robust standard errors. The bootstrapped residuals compare most closely to the standard errors of the initial linear model without robust standard errors. The standard errors of these bootstrapped residuals are slightly greater than the original standard errors*   
+
+# Logistic Regression
+```{R}
+library(plotROC)
+covid<-covid%>%mutate(y=ifelse(NCHS_urbanization=="Large central metro",1,0))
+logistic<- glm(y~confirmed_per_100000+deaths_per_100000+total_population,data=covid,family="binomial"(link="logit"))
+coeftest(logistic)
+exp(coef(logistic))
+probs<-predict(logistic,type="response")
+table(predict=as.numeric(probs>.5),truth=covid$y)%>%addmargins #reported confusion matrix for 'logistic'
+
+class_diag<-function(probs,truth){
+if(is.numeric(truth)==FALSE & is.logical(truth)==FALSE) truth<-as.numeric(truth)-1
+tab<-table(factor(probs>.5,levels=c("FALSE","TRUE")),truth) 
+prediction<-ifelse(probs>.5,1,0) 
+acc=mean(truth==prediction) 
+sens=mean(prediction[truth==1]==1) 
+spec=mean(prediction[truth==0]==0)
+ppv=mean(truth[prediction==1]==1)
+ord<-order(probs, decreasing=TRUE)
+probs <- probs[ord]; truth <- truth[ord]
+TPR=cumsum(truth)/max(1,sum(truth)) 
+FPR=cumsum(!truth)/max(1,sum(!truth))
+dup<-c(probs[-1]>=probs[-length(probs)], FALSE) 
+TPR<-c(0,TPR[!dup],1); FPR<-c(0,FPR[!dup],1)
+n <- length(TPR)
+auc<- sum( ((TPR[-1]+TPR[-n])/2) * (FPR[-1]-FPR[-n]) )
+data.frame(acc,sens,spec,ppv,auc) }
+problogistic<-predict(logistic,type="response") 
+class_diag(problogistic,covid$y)
+
+logit<-function(p)log(odds(p))
+covid$logit<-predict(logistic)
+covid$y<-factor(covid$y,levels=c("1","0"))
+covid%>%ggplot()+geom_density(aes(logit,color=y,fill=y), alpha=.4)+
+  theme(legend.position=c(.85,.85))+geom_vline(xintercept=0)+xlab("predictor (logit)")
+
+ROClogistic<-ggplot(logistic)+geom_roc(aes(d=y,m=confirmed_per_100000+deaths_per_100000+total_population), n.cuts=0)+geom_segment(aes(x=0,xend=1,y=0,yend=1),lty=2)
+ROClogistic
+calc_auc(ROClogistic)
+
+k=10
+data<-covid[sample(nrow(covid)),]
+folds<-cut(seq(1:nrow(covid)),breaks=k,labels=F)
+diags<-NULL
+for(i in 1:k){
+  train<-data[folds!=i,]
+  test<-data[folds==i,]
+  truth<-test$y
+  logistic<- glm(y~confirmed_per_100000+deaths_per_100000+total_population,data=covid,family="binomial"(link="logit"))
+  probs<-predict(logistic,newdata = test,type="response")
+  diags<-rbind(diags,class_diag(probs,truth))
+}
+summarize_all(diags,mean)
+```
+
+*Mutate was first used to create a new binary variable 'y' in the dataset that output 1 if the urbanization area was a large central metropolitan and a 0 if it was not (any of the other 5 urbanization categories). I thought this was interesting because it allows viewing of how the "big cities" compared to each other as well as the other urbanization categories. "Y" was predicted from three explanatory variables: 'confirmed_per_100000', 'deaths_per_100000', and 'total_population' and then exponentiated to obtain the odds for each coefficient opposed to making sense of the log odds obtained from the logistic regression. The intercept coefficient shows the odds of a county being from a large central metropolitan when the confirmed cases per 100,000, deaths per 100,000, and total population are all equal to 0 (odds = .0031). It makes sense the odds are incredibly low for this. When controlling for 'deaths_per_100000' and 'total_population', for every additional unit in 'confirmed_per_100000' the odds of a county being a large central metropolitan increase by almost 1 (.9995) but was not significant (p > .05). Likewise, when controlling for 'confirmed_per_100000' and 'total_population', for every additional unit in 'deaths_per_100000' the odds of a county being a large central metropolitan increase by over 1 (1.016) yet is still not significant (p > .05). Lastly, when controlling for 'deaths_per_100000' and 'confirmed_per_100000', for every additional unit in 'total_population' the odds of a county being a large central metropolitan increase by 1 and is significant (p < .001). This intuitively makes sense as population is the greatest indicator where a county stands when the urbanization category is concerned.*
+
+*After making the confusion matrix the accuracy, sensitivity, specificity, and precision could be calculated. However, the 'class_diag' function written by Dr. Woodward was used to easily get these measures instead. The proportion of observations that were correctly classified (accuracy) was .983. A proportion of .422 of the urbanization category 'large central metro' were classified correctly (the true positive rate) and .997 of observations that did not fall in the 'large central metro' category were classified correctly (the true negative rate). The precision stood at a proportion of .75 observations classified as 'large central metro' that actually were. Overall it seems the model does well at predicting an observation that falls in the urbanization category 'large central metro' from the three explanatory variables.*
+
+*The significant output from the GLM foreshadows that this model may be a good predictor for the binary variable: 'Large central metro' (1) and 'Not large central metro' (0). The ROC curve works as a visual representation for how well the model is able to differentiate between these two classifications by using the measures of sensitivity and septicity. The ROC curve is great since it stays away from the dashed line as it shoots upwards almost to 1 and then right directly following the tick on the y-axis at 1. The curve illustrates how strong the AUC (the area under the curve) will be and after calculating AUC with the plotROC package, it can be seen the AUC is great at .986. This value for AUC summarizes what the ROC curve shows, but in just one value. Both tell us our model is indeed a great predictor for the binary variable when given the predictors.*
+
+*A tenfold cross validation was conducted to see how the model would predict new data based on the current data. After viewing the results, it is apparent the model is still a great predictor of the binary variable with an AUC = .986. The out of sample accuracy, sensitivity, and recall were .983, .997, and .442 respectively. It was interesting to see that the values for sensitivity and recall essentially switched places between the model estimates and the out-of-sample averages.* 
+
+# Lasso
+```{R}
+library(glmnet)
+y<- as.matrix(covid$y)
+x<- covid %>% select(total_population,confirmed,confirmed_per_100000,deaths,deaths_per_100000) %>%
+  mutate_all(scale) %>%as.matrix
+cv<- cv.glmnet(x,y, family = "binomial")
+lasso<-glmnet(x,y,family = "binomial",lambda=cv$lambda.1se)
+coef(lasso)
+
+k=10
+data<- covid %>% sample_frac
+fold<- ntile(1:nrow(data),n=10)
+diags<-NULL
+for(i in 1:k){
+  train<- data[folds!=i,]
+  test<- data[folds==i,]
+  truth<-test$y
+  lassofit<-glm(y~total_population,data=train, family="binomial")
+  probs<- predict(lassofit,newdata=test, type="response")
+  diags<-rbind(diags,class_diag(probs,truth))
+}
+diags%>% summarize_all(mean)
+```
+
+*Lasso was used to find the most important predictors for the model to result in one with increased accuracy and less overfitting. Two matrices (x and y) were first created where y had the binary response variable 'y' (1 = Large central metro, 0 = Not large central metro). 'Select' was used when making x to ensure only all the numeric variables were being mutated as a matrix. After using the glmnet package to run lasso it was found the predictor 'total_population' was the most important. This already intuitively makes sense as a county must have a large population to be classified as a large central metropolitan.*
+
+*After performing a 10-fold cross validation on the lasso model, it can be seen the model does a great job at predicting whether a county is a large central metropolitan or not from the total population. The accuracy was .9833083 although slightly lower than the value obtained from the logistic regression, but the different predictors: 'deaths_per_100000', 'confirmed_per_100000', and 'total_population' were used for the logistic regression model instead (acc = .9833091).*

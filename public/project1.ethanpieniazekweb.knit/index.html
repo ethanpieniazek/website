@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="author" content="Ethan Pieniazek" />
+    <meta name="description" content="Describe your website">
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <title>Project 1: Exploratory Data Analysis</title>
+    <meta name="generator" content="Hugo 0.69.2" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/css/main.css" />
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,400,200bold,400old" />
+    
+    <!--[if lt IE 9]>
+			<script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+			<script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+		<![endif]-->
+
+    
+  </head>
+
+  <body>
+    <div id="wrap">
+
+      
+      <nav class="navbar navbar-default">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="/"><i class="fa fa-home"></i></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar">
+      <ul class="nav navbar-nav navbar-right">
+      
+        
+        <li><a href="/blog/">BLOG</a></li>
+        
+        <li><a href="/projects/">PROJECTS</a></li>
+        
+        <li><a href="/resume/">RESUME</a></li>
+        
+      
+      </ul>
+    </div>
+  </div>
+</nav>
+
+      
+      <div class="container">
+        <div class="blog-post">
+          <h3>
+            <strong><a href="/project1.ethanpieniazekweb.knit/">Project 1: Exploratory Data Analysis</a></strong>
+          </h3>
+        </div>
+        <div class="blog-title">
+          <h4>
+          January 1, 0001
+            &nbsp;&nbsp;
+            
+          </h4>
+        </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="blogpost">
+              <p><em>After scouring for hours on Kaggle, spreadsheets, and data.gov for this project in search of two interesting datasets that could be related by a common variable, I ended up stumbling across some interesting stuff while not even actively searching. After reading that &ldquo;Uncut Gems&rdquo; had the seventh most f-bombs in movie history, I searched along these lines and found a table on wikipedia that was 144 observations long. The table included the name and year of the film, rank relative to one another concerning the total number of f-bombs, total f-bombs, total minutes, source, and f-bombs per minute. I decided to match this data with information I found on boxofficemojo.com concerning total domestic box office gross, director of film, and whether the film was considered a comedy.</em></p>
+<p><em>After joining by the name of the film I expect to find associations between the year the film was released and the total amount of f-bombs used in the film. I also think comedies will on average have more f-bombs per minute than other genres such as crime drama, biography, and action films. Comparing how the film did in the box office with the total f-bombs as well as with directors that had more than one occurrence in the data also sounds interesting to explore as I noticed Quentin Tarantino, Martin Scorsese, and Spike Lee  were each found four times throughout the data. Distributing the films equally into quintiles by year released to then analyze the numeric variables may reveal the years excessive profanity did not deter the film from doing poorly in the box office. A big reason this data was interesting to me is that it made me realize how prevalent data is everywhere, as there is so much of it freely available to access. It was quite overwhelming at first, but after I started to focus on finding data related to an interest of mine, I found it to be not only easier, but also much more interesting.</em></p>
+<h1 id="joining-two-sets-of-data-into-one">Joining Two Sets of Data into One</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(tidyverse)
+<span style="color:#a6e22e">library</span>(dplyr)
+films_fbomb <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read.csv</span>(<span style="color:#e6db74">&#34;//Users/bitoFLO/Desktop/Website/content/films fbomb.csv&#34;</span>, 
+    header <span style="color:#f92672">=</span> T, na.strings <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;NA&#34;</span>))
+films_domestic_box_ <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">read.csv</span>(<span style="color:#e6db74">&#34;/Users/bitoFLO/Desktop/Website/content/films domestic box.csv&#34;</span>, 
+    header <span style="color:#f92672">=</span> T, na.strings <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;&#34;</span>, <span style="color:#e6db74">&#34;NA&#34;</span>))
+filmsdata <span style="color:#f92672">&lt;-</span> films_fbomb <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">left_join</span>(films_domestic_box_, by <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(film <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;film&#34;</span>)) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">na.omit</span>() <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">glimpse</span>()
+</code></pre></div><pre><code>## Observations: 132
+## Variables: 9
+## $ rank          &lt;int&gt; 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, ...
+## $ film          &lt;chr&gt; &quot;The Wolf of Wall Street&quot;, &quot;Summer of Sam&quot;, &quot;Nil by M...
+## $ year          &lt;int&gt; 2013, 1999, 1997, 1995, 2019, 2015, 2007, 2012, 1997,...
+## $ fbombs        &lt;int&gt; 569, 435, 428, 422, 408, 392, 367, 326, 318, 315, 313...
+## $ minutes       &lt;int&gt; 180, 142, 128, 178, 135, 167, 118, 109, 99, 122, 106,...
+## $ source        &lt;fct&gt; SI, PO, SI, FMG, PI, SI, SI, KIM, SI, SI, DR, SI, PO,...
+## $ domesticgross &lt;int&gt; 116900694, 19288130, 266130, 42512375, 49929594, 1611...
+## $ comedy        &lt;fct&gt; no, no, no, no, no, no, no, no, yes, no, no, yes, no,...
+## $ director      &lt;fct&gt; martin.scorsese, spike.lee, gary.oldman, martin.scors...
+</code></pre><p>*I chose to perform a left join because both datasets shared the common variable &lsquo;film&rsquo;, but the dataset &lsquo;films_domestic_box_&rsquo; contained three other variables &lsquo;domesticgross&rsquo;, &lsquo;director&rsquo;, and &lsquo;comedy&rsquo;. I wanted to join this variable to the &lsquo;films_fbombs&rsquo; dataset containing the variables &lsquo;rank&rsquo;, &lsquo;year&rsquo;, &lsquo;fbombs&rsquo;, &lsquo;minutes&rsquo;, and &lsquo;source&rsquo; by the variable both sets shared. 11 cases were dropped after using na.omit due to NAs found throughout the joined dataset in the &lsquo;domesticgross&rsquo; and &lsquo;source&rsquo; columns. I quickly found after knitting complications that I also needed to specify that the blank cells in each dataset also constituted as NAs. The problem with dropping NAs is that important data could be lost, in this case the number 1, 2, 32, 40, 71, 82, etc. ranking films were dropped from further analysis. When analyzing data with only 144 observations to begin with, losing 8% of the data due to NAs is probably not ideal. On the contrary, the reason the cases were dropped is because there was little to no information readily available about domestic box office sales, director, or source where as for all the other films the information was easily found via boxofficemojo.com. Dropping these cases may have worked to actually make &lsquo;filmsdata&rsquo; more true to the movies that were available to see in theater, opposed to including some relatively unsuccessful indie films that also had a great deals of f-bombs.*</p>
+<h1 id="untidying">(Un)tidying</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">untidyfilms <span style="color:#f92672">&lt;-</span> filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_longer</span>(<span style="color:#a6e22e">contains</span>(<span style="color:#e6db74">&#34;minutes&#34;</span>), 
+    names_to <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;names&#34;</span>, values_to <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;values&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">separate</span>(director, 
+    into <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;first&#34;</span>, <span style="color:#e6db74">&#34;last&#34;</span>))
+<span style="color:#a6e22e">glimpse</span>(untidyfilms)
+</code></pre></div><pre><code>## Observations: 132
+## Variables: 11
+## $ rank          &lt;int&gt; 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, ...
+## $ film          &lt;chr&gt; &quot;The Wolf of Wall Street&quot;, &quot;Summer of Sam&quot;, &quot;Nil by M...
+## $ year          &lt;int&gt; 2013, 1999, 1997, 1995, 2019, 2015, 2007, 2012, 1997,...
+## $ fbombs        &lt;int&gt; 569, 435, 428, 422, 408, 392, 367, 326, 318, 315, 313...
+## $ source        &lt;fct&gt; SI, PO, SI, FMG, PI, SI, SI, KIM, SI, SI, DR, SI, PO,...
+## $ domesticgross &lt;int&gt; 116900694, 19288130, 266130, 42512375, 49929594, 1611...
+## $ comedy        &lt;fct&gt; no, no, no, no, no, no, no, no, yes, no, no, yes, no,...
+## $ first         &lt;chr&gt; &quot;martin&quot;, &quot;spike&quot;, &quot;gary&quot;, &quot;martin&quot;, &quot;benny&quot;, &quot;f&quot;, &quot;n...
+## $ last          &lt;chr&gt; &quot;scorsese&quot;, &quot;lee&quot;, &quot;oldman&quot;, &quot;scorsese&quot;, &quot;safdie&quot;, &quot;g...
+## $ names         &lt;chr&gt; &quot;minutes&quot;, &quot;minutes&quot;, &quot;minutes&quot;, &quot;minutes&quot;, &quot;minutes&quot;...
+## $ values        &lt;int&gt; 180, 142, 128, 178, 135, 167, 118, 109, 99, 122, 106,...
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">untidyfilms <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">pivot_wider</span>(names_from <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;names&#34;</span>, values_from <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;values&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">unite</span>(director, first, last, sep <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;.&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">glimpse</span>()
+</code></pre></div><pre><code>## Observations: 132
+## Variables: 9
+## $ rank          &lt;int&gt; 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, ...
+## $ film          &lt;chr&gt; &quot;The Wolf of Wall Street&quot;, &quot;Summer of Sam&quot;, &quot;Nil by M...
+## $ year          &lt;int&gt; 2013, 1999, 1997, 1995, 2019, 2015, 2007, 2012, 1997,...
+## $ fbombs        &lt;int&gt; 569, 435, 428, 422, 408, 392, 367, 326, 318, 315, 313...
+## $ source        &lt;fct&gt; SI, PO, SI, FMG, PI, SI, SI, KIM, SI, SI, DR, SI, PO,...
+## $ domesticgross &lt;int&gt; 116900694, 19288130, 266130, 42512375, 49929594, 1611...
+## $ comedy        &lt;fct&gt; no, no, no, no, no, no, no, no, yes, no, no, yes, no,...
+## $ director      &lt;chr&gt; &quot;martin.scorsese&quot;, &quot;spike.lee&quot;, &quot;gary.oldman&quot;, &quot;marti...
+## $ minutes       &lt;int&gt; 180, 142, 128, 178, 135, 167, 118, 109, 99, 122, 106,...
+</code></pre><p><em>Often when data is found it is messy, sometimes because it is more convenient for those collecting data to do so in a wide data format. As Grolemund and Wickham state; in order to be “tidy” each variable needs its own column, each observation its own row, and each value its own cell. To make my already tidy data untidy I decided to first use &lsquo;pivot_longer&rsquo; to make the column title &lsquo;minutes&rsquo; go into a new column called &lsquo;names&rsquo; as well as the values to another separate column called &lsquo;values&rsquo;. This expanded the 9 columns my tidy data had to 10 columns where I then decided to separate &lsquo;director&rsquo; into &lsquo;first&rsquo; and &lsquo;last&rsquo; to obtain 11 columns. Now that the data looked messy enough, I used the &lsquo;pivot_wider&rsquo; function to take the names from &lsquo;names&rsquo; and the values from &lsquo;values&rsquo; so the minutes column could be brought back along with the respective lengths of each film. Finally, I used the &lsquo;unite&rsquo; function to bring the director names that were separated into their first name and last name back into a column titled &lsquo;director&rsquo;, separating them by a period for clarity.</em></p>
+<h1 id="wrangling-and-generating-summary-statistics">Wrangling and Generating Summary Statistics</h1>
+<h3 id="1">1.</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">&lt;-</span> filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(fbombspermin <span style="color:#f92672">=</span> fbombs<span style="color:#f92672">/</span>minutes)
+filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2000</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize</span>(avg_fbombspermin <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(fbombspermin), 
+    avg_minutes <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(minutes))
+</code></pre></div><pre><code>##   avg_fbombspermin avg_minutes
+## 1         1.873157    119.9792
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(year <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2000</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize</span>(avg_fbombspermin <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(fbombspermin), 
+    avg_minutes <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(minutes))
+</code></pre></div><pre><code>##   avg_fbombspermin avg_minutes
+## 1         1.896294    112.4762
+</code></pre><h3 id="2">2.</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(film, director, year) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(fbombspermin, 
+    fbombs) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize</span>(avg_fbombspermin <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(fbombspermin), 
+    total_fbombs <span style="color:#f92672">=</span> <span style="color:#a6e22e">sum</span>(fbombs)) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">arrange</span>(director) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">glimpse</span>()
+</code></pre></div><pre><code>## Observations: 132
+## Variables: 5
+## Groups: film, director [132]
+## $ film             &lt;chr&gt; &quot;The Commitments&quot;, &quot;Dead Presidents&quot;, &quot;Menace II S...
+## $ director         &lt;fct&gt; alan.parker, albert.hughes, albert.hughes, andrea....
+## $ year             &lt;int&gt; 1991, 1995, 1993, 2016, 2012, 2010, 2010, 2000, 20...
+## $ avg_fbombspermin &lt;dbl&gt; 1.4322034, 1.3193277, 3.1122449, 0.9202454, 1.9896...
+## $ total_fbombs     &lt;int&gt; 169, 157, 305, 150, 193, 270, 155, 153, 210, 193, ...
+</code></pre><h3 id="3">3.</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(comedy) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(domesticgross, fbombs) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">summarize</span>(avg_domesticgross <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(domesticgross), sd_domesticgross <span style="color:#f92672">=</span> <span style="color:#a6e22e">sd</span>(domesticgross), 
+        avg_fbombs <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(fbombs))
+</code></pre></div><pre><code>## # A tibble: 2 x 4
+##   comedy avg_domesticgross sd_domesticgross avg_fbombs
+##   &lt;fct&gt;              &lt;dbl&gt;            &lt;dbl&gt;      &lt;dbl&gt;
+## 1 no             32480571.        41259813.       225.
+## 2 yes            36732615.        44822150.       194.
+</code></pre><h3 id="4">4.</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(quintileyr <span style="color:#f92672">=</span> <span style="color:#a6e22e">cut</span>(filmsdata<span style="color:#f92672">$</span>year, <span style="color:#a6e22e">quantile</span>(filmsdata<span style="color:#f92672">$</span>year, 
+    <span style="color:#ae81ff">0</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5</span><span style="color:#f92672">/</span><span style="color:#ae81ff">5</span>), include.lowest <span style="color:#f92672">=</span> T)) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(quintileyr) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">summarize</span>(avg_fbombs <span style="color:#f92672">=</span> <span style="color:#a6e22e">mean</span>(fbombs), var_fbombs <span style="color:#f92672">=</span> <span style="color:#a6e22e">var</span>(fbombs))
+</code></pre></div><pre><code>## # A tibble: 5 x 3
+##   quintileyr  avg_fbombs var_fbombs
+##   &lt;fct&gt;            &lt;dbl&gt;      &lt;dbl&gt;
+## 1 [1978,1997]       216.      5287.
+## 2 (1997,2000]       210.      3883.
+## 3 (2000,2006]       224.      3288.
+## 4 (2006,2012]       203.      3563.
+## 5 (2012,2019]       208.     10071.
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">&lt;-</span> filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(quintileyr <span style="color:#f92672">=</span> <span style="color:#a6e22e">cut</span>(filmsdata<span style="color:#f92672">$</span>year, 
+    <span style="color:#a6e22e">quantile</span>(filmsdata<span style="color:#f92672">$</span>year, <span style="color:#ae81ff">0</span><span style="color:#f92672">:</span><span style="color:#ae81ff">5</span><span style="color:#f92672">/</span><span style="color:#ae81ff">5</span>), include.lowest <span style="color:#f92672">=</span> T))
+</code></pre></div><h3 id="5">5.</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize</span>(distinct_year_count <span style="color:#f92672">=</span> <span style="color:#a6e22e">n_distinct</span>(year), 
+    distinct_source_count <span style="color:#f92672">=</span> <span style="color:#a6e22e">n_distinct</span>(source), distinct_director_count <span style="color:#f92672">=</span> <span style="color:#a6e22e">n_distinct</span>(director))
+</code></pre></div><pre><code>##   distinct_year_count distinct_source_count distinct_director_count
+## 1                  36                    10                     107
+</code></pre><h3 id="6">6.</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(quintileyr) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize</span>(correlation <span style="color:#f92672">=</span> <span style="color:#a6e22e">cor</span>(fbombs, 
+    minutes))
+</code></pre></div><pre><code>## # A tibble: 5 x 2
+##   quintileyr  correlation
+##   &lt;fct&gt;             &lt;dbl&gt;
+## 1 [1978,1997]      0.105 
+## 2 (1997,2000]      0.327 
+## 3 (2000,2006]      0.0912
+## 4 (2006,2012]     -0.0923
+## 5 (2012,2019]      0.657
+</code></pre><h3 id="7">7.</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(source) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize</span>(min_domesticgross <span style="color:#f92672">=</span> <span style="color:#a6e22e">min</span>(domesticgross), 
+    max_domesticgross <span style="color:#f92672">=</span> <span style="color:#a6e22e">max</span>(domesticgross)) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(max_domesticgross))
+</code></pre></div><pre><code>## # A tibble: 10 x 3
+##    source min_domesticgross max_domesticgross
+##    &lt;fct&gt;              &lt;int&gt;             &lt;int&gt;
+##  1 PI                141396         191719337
+##  2 SI                127923         161197785
+##  3 KIM                15843         159582188
+##  4 FMG                 2942         140539099
+##  5 IMDb           115646235         115646235
+##  6 PO                104257          27912072
+##  7 SD              27545445          27545445
+##  8 TFF              6521083           6521083
+##  9 DR                316319            316319
+## 10 MR                139692            139692
+</code></pre><h3 id="8">8.</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>rank, <span style="color:#f92672">-</span>film, <span style="color:#f92672">-</span>year, <span style="color:#f92672">-</span>source, <span style="color:#f92672">-</span>comedy, <span style="color:#f92672">-</span>director, 
+    <span style="color:#f92672">-</span>quintileyr) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">cor</span>()
+</code></pre></div><pre><code>##                     fbombs    minutes domesticgross fbombspermin
+## fbombs         1.000000000  0.2458415  -0.005275904    0.8068090
+## minutes        0.245841489  1.0000000   0.258155168   -0.3346682
+## domesticgross -0.005275904  0.2581552   1.000000000   -0.2139089
+## fbombspermin   0.806808988 -0.3346682  -0.213908912    1.0000000
+</code></pre><h3 id="9">9.</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">top10comedies <span style="color:#f92672">&lt;-</span> filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(comedy <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;yes&#34;</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(film, 
+    rank) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(fbombspermin, fbombs, rank, domesticgross) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">summarize</span>(fbombs, fbombspermin, domesticgross) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">arrange</span>(rank) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">filter</span>(rank <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">45</span>)
+top10noncomedies <span style="color:#f92672">&lt;-</span> filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(comedy <span style="color:#f92672">==</span> <span style="color:#e6db74">&#34;no&#34;</span>) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">group_by</span>(film, rank) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(fbombspermin, fbombs, rank, 
+    domesticgross) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize</span>(fbombs, fbombspermin, domesticgross) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">arrange</span>(rank) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(rank <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">13</span>)
+top10comedies
+</code></pre></div><pre><code>## # A tibble: 10 x 5
+## # Groups:   film [10]
+##    film                             rank fbombs fbombspermin domesticgross
+##    &lt;chr&gt;                           &lt;int&gt;  &lt;int&gt;        &lt;dbl&gt;         &lt;int&gt;
+##  1 Twin Town                          11    318         3.21        127923
+##  2 Martin Lawrence Live: Runteldat    14    311         2.75      19184820
+##  3 Made                               19    291         3.10       5313300
+##  4 I'm Still Here                     23    280         2.62        408983
+##  5 The Big Lebowski                   29    260         2.22      18034458
+##  6 Jay and Silent Bob Strike Back     30    248         2.38      30085147
+##  7 Do the Right Thing                 33    240         2         27545445
+##  8 Goon                               40    231         2.48       4168528
+##  9 Gridlock'd                         43    227         2.49       5571205
+## 10 Eddie Murphy Raw                   45    223         2.48      50504655
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">top10noncomedies
+</code></pre></div><pre><code>## # A tibble: 10 x 5
+## # Groups:   film [10]
+##    film                     rank fbombs fbombspermin domesticgross
+##    &lt;chr&gt;                   &lt;int&gt;  &lt;int&gt;        &lt;dbl&gt;         &lt;int&gt;
+##  1 The Wolf of Wall Street     3    569         3.16     116900694
+##  2 Summer of Sam               4    435         3.06      19288130
+##  3 Nil by Mouth                5    428         3.34        266130
+##  4 Casino                      6    422         2.37      42512375
+##  5 Uncut Gems                  7    408         3.02      49929594
+##  6 Straight Outta Compton      8    392         2.35     161197785
+##  7 Alpha Dog                   9    367         3.11      15309602
+##  8 End of Watch               10    326         2.99      41003371
+##  9 Running Scared             12    315         2.58       6855137
+## 10 Sweet Sixteen              13    313         2.95        316319
+</code></pre><h3 id="10">10.</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(director) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(directorappearances <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>()) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">filter</span>(directorappearances <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(director, directorappearances) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">select</span>(director, directorappearances) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">summarize</span>() <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">arrange</span>(<span style="color:#a6e22e">desc</span>(directorappearances))
+</code></pre></div><pre><code>## # A tibble: 17 x 2
+## # Groups:   director [17]
+##    director             directorappearances
+##    &lt;fct&gt;                              &lt;int&gt;
+##  1 martin.scorsese                        4
+##  2 quentin.tarantino                      4
+##  3 spike.lee                              4
+##  4 david.ayer                             3
+##  5 kevin.smith                            3
+##  6 albert.hughes                          2
+##  7 benny.boom                             2
+##  8 benny.safdie                           2
+##  9 damon.dash                             2
+## 10 jim.sheridan                           2
+## 11 joe.carnahan                           2
+## 12 joel.schumacher                        2
+## 13 ken.loach                              2
+## 14 larry.clark                            2
+## 15 oliver.stone                           2
+## 16 paul.thomas.anderson                   2
+## 17 peter.berg                             2
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">filmsdata <span style="color:#f92672">&lt;-</span> filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">group_by</span>(director) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(directorappearances <span style="color:#f92672">=</span> <span style="color:#a6e22e">n</span>()) <span style="color:#f92672">%&gt;%</span> 
+    ungroup
+</code></pre></div><p><em>By using the six core dplyr functions, it made it easy to manipulate and explore the joined dataset. For films between 1978 and 1999 the average f-bombs per minute was 1.873157 and the average length of film was 119.9792 minutes. Films between 2000 and 2019 showed an average ‘fbombspermin’ being slightly greater with a value of 1.896294 while the length of film was generally shorter at 112.4762 minutes on average. Grouping the data by film, director, and year made summarizing the average ‘fbombspermin’ and total ‘fbombs’ for each film concise. I then grouped the data by ‘comedy’ to give the the ‘avg_domesticgross’, ‘sd_domesticgross’, and ‘avg_fbombs’ for the comedies and non-comedies, on average the comedies bringing in more revenue while having fewer f-bombs (not what I hypothesized). The ‘quintileyr’ variable was mutated to sort the films into five equal quintiles based on year released, showing the average f-bomb count to be higher in the first three quintiles than the most recent two, which was surprising considering how it feels the world has been more desensitized to profanity when compared to 30 years ago. Using the ‘cor’ function with the newly mutated &lsquo;quintileyr&rsquo; revealed the strongest linear relationship between f-bombs and length was in the last quintile (2013-2019).</em></p>
+<p><em>Summarizing with ’n_distinct’ revealed there were 36 distinct years, 10 distinct sources, and 107 distinct directors in the data. ‘Plugged In’ was the source sited with the highest recorded domestic gross sales for a film (“22 Jump Street”) while ‘Family Media Group’ was sited for one that had the lowest domestic gross sales (“Ash Wednesday”). The correlation matrix summarized the data showing the highest correlation existed between ‘fbombs’ and ‘fbombspermin’. Filtering the comedies and non-comedies and then filtering by rank gave way to two cool new data sets, showing the top 10 ranked comedies for f-bomb count and the top 10 ranked non-comedies for f-bomb count. “Twin Tower” took the cake for being the comedy with the most f-bombs (318 f-bombs) while “The Wolf of Wall Street” had the most for a non-comedy (569 f-bombs). The last summary statistic I created was interesting because it mutated a new function (‘directorappearances’) to then summarize and arrange the directors who appeared multiple times in the data set. This was particularly useful for making my first plot.</em></p>
+<h1 id="correlation-heapmap-of-numeric-variables">Correlation Heapmap of Numeric Variables</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(reshape2)
+filmsdata_cormatrix <span style="color:#f92672">&lt;-</span> filmsdata <span style="color:#f92672">%&gt;%</span> ungroup <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(<span style="color:#f92672">-</span>rank, 
+    <span style="color:#f92672">-</span>film, <span style="color:#f92672">-</span>year, <span style="color:#f92672">-</span>source, <span style="color:#f92672">-</span>comedy, <span style="color:#f92672">-</span>director, <span style="color:#f92672">-</span>quintileyr, <span style="color:#f92672">-</span>directorappearances) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">cor</span>()
+melt_cormatrix <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">melt</span>(filmsdata_cormatrix)
+<span style="color:#a6e22e">ggplot</span>(data <span style="color:#f92672">=</span> melt_cormatrix, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> Var1, y <span style="color:#f92672">=</span> Var2, fill <span style="color:#f92672">=</span> value)) <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">geom_tile</span>(color <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">scale_fill_gradient2</span>(low <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;yellow&#34;</span>, 
+    high <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;orange&#34;</span>, mid <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;white&#34;</span>, midpoint <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, limit <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#ae81ff">-1</span>, 
+        <span style="color:#ae81ff">1</span>), space <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Lab&#34;</span>, name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Correlation&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">theme</span>(axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>, vjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, size <span style="color:#f92672">=</span> <span style="color:#ae81ff">9</span>, 
+        hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.7</span>)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">coord_fixed</span>() <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Correlation heatmap of numeric variables&#34;</span>) <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>))
+</code></pre></div><p>\begin{center}\includegraphics{project1.ethanpieniazekweb_files/figure-latex/unnamed-chunk-13-1} \end{center}
+<em>This correlation heatmap takes the correlation matrix coded for summary statistic #8 and converts it into a visualization that makes it easier to see the relationships between the numeric variables. The most positive correlation is shown between &lsquo;fbombs&rsquo; and &lsquo;fbombspermin&rsquo; while the most negative is shown between &lsquo;minutes&rsquo; and &lsquo;fbombspermin&rsquo;. It was important to use the dplyr select function to not include variables R may have thought were numeric upon inspection such as &lsquo;year&rsquo;, &lsquo;rank&rsquo;, and &lsquo;quintileyr&rsquo;. The fact that there is no correlation between &lsquo;fbombs&rsquo; and &lsquo;domesticgross&rsquo; makes sense, as all movies are rated R and the audience under the age of 17 is greatly limited. All these movies had a great deal of f-bombs (some much more than others) and this did not correlate with movies doing better or worse when it came to domestic box office sales.</em></p>
+<h1 id="first-plot">First Plot</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">bigboys <span style="color:#f92672">&lt;-</span> filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">filter</span>(directorappearances <span style="color:#f92672">==</span> <span style="color:#ae81ff">4</span>) <span style="color:#f92672">%&gt;%</span> 
+    <span style="color:#a6e22e">select</span>(film, director, fbombs, year, fbombspermin)
+
+bigboysgg <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>(bigboys, <span style="color:#a6e22e">aes</span>(director, fbombs))
+
+bigboysgg <span style="color:#f92672">+</span> <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;identity&#34;</span>, <span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> film)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">guides</span>(fill <span style="color:#f92672">=</span> <span style="color:#a6e22e">guide_legend</span>(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Film&#34;</span>, 
+    title.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;left&#34;</span>)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">scale_x_discrete</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;martin.scorsese&#34;</span>, 
+    <span style="color:#e6db74">&#34;quentin.tarantino&#34;</span>, <span style="color:#e6db74">&#34;spike.lee&#34;</span>), labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;Martin Scorsese&#34;</span>, 
+    <span style="color:#e6db74">&#34;Quentin Tarantino&#34;</span>, <span style="color:#e6db74">&#34;Spike Lee&#34;</span>)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">scale_y_continuous</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(from <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, 
+    to <span style="color:#f92672">=</span> <span style="color:#ae81ff">1600</span>, by <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Count of Fbombs for Directors with 4 Appearances by Film&#34;</span>) <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">labs</span>(x <span style="color:#f92672">=</span> <span style="color:#66d9ef">NULL</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ylab</span>(<span style="color:#e6db74">&#34;Count of Fbombs&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">-0.2</span>)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">scale_fill_brewer</span>(palette <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Set3&#34;</span>)
+</code></pre></div><p>\begin{center}\includegraphics{project1.ethanpieniazekweb_files/figure-latex/unnamed-chunk-14-1} \end{center}
+<em>It was interesting to find that out of 132 observations there were three directors that each had four films in the data. Martin Scorsese had the film with the most f-bombs in the dataset (&ldquo;The Wolf of Wall Street) and Spike Lee has the film with the second most f-bombs in the dataset (&ldquo;Summer of Sam&rdquo;). Quentin Tarantino had the lowest combined f-bomb count for his four films when compared to Spike Lee&rsquo;s and Martin Scorsese&rsquo;s totals (Martin surpassing Spike Lee by nearly 600 f-bombs!). I found it particularly interesting that Tarantino had two pairs of films in the data with very similar f-bomb totals. &ldquo;Pulp Fiction&rdquo; had 265 while &ldquo;Reservoir Dogs&rdquo; had 269 and &ldquo;Grindhouse&rdquo; had 169 while &ldquo;Four Rooms&rdquo; had 168. I wish I could have gotten around to watching “Once Upon a Time in Hollywood” again and while tallying the f-bombs as I watched it to see how it compared to his other four films. If the film ended up having greater than 150 f-bombs (highly likely in a nearly three hour Tarantino film considering his past record) then Tarantino would have been the single director with the most films that made the list at five films total.</em></p>
+<h1 id="second-plot">Second Plot</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">complot <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">ggplot</span>(filmsdata, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#a6e22e">factor</span>(quintileyr), y <span style="color:#f92672">=</span> domesticgross)) <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">geom_bar</span>(stat <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;summary&#34;</span>, fun.y <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;mean&#34;</span>, <span style="color:#a6e22e">aes</span>(fill <span style="color:#f92672">=</span> comedy)) <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">scale_y_continuous</span>(name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Average Revenue in US Dollars&#34;</span>, 
+        labels <span style="color:#f92672">=</span> scales<span style="color:#f92672">::</span>comma, breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">seq</span>(from <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, to <span style="color:#f92672">=</span> <span style="color:#ae81ff">7e+07</span>, 
+            by <span style="color:#f92672">=</span> <span style="color:#ae81ff">5e+06</span>)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ggtitle</span>(<span style="color:#e6db74">&#34;Average Domestic Box Office Sales per Quintile by Genre&#34;</span>) <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">xlab</span>(<span style="color:#e6db74">&#34;Quintile&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">ylab</span>(<span style="color:#e6db74">&#34;Count of Fbombs&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">theme_minimal</span>() <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">theme</span>(plot.title <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(hjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">scale_fill_brewer</span>(palette <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Set3&#34;</span>) <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">facet_wrap</span>(<span style="color:#f92672">~</span>comedy)
+
+comedylabels <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">c</span>(no <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Non-comedy&#34;</span>, yes <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Comedy&#34;</span>)
+
+complot <span style="color:#f92672">+</span> <span style="color:#a6e22e">facet_grid</span>(. <span style="color:#f92672">~</span> comedy, labeller <span style="color:#f92672">=</span> <span style="color:#a6e22e">labeller</span>(comedy <span style="color:#f92672">=</span> comedylabels)) <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">theme</span>(legend.position <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;none&#34;</span>) <span style="color:#f92672">+</span> <span style="color:#a6e22e">scale_x_discrete</span>(breaks <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;[1978,1997]&#34;</span>, 
+    <span style="color:#e6db74">&#34;(1997,2000]&#34;</span>, <span style="color:#e6db74">&#34;(2000,2006]&#34;</span>, <span style="color:#e6db74">&#34;(2006,2012]&#34;</span>, <span style="color:#e6db74">&#34;(2012,2019]&#34;</span>), 
+    labels <span style="color:#f92672">=</span> <span style="color:#a6e22e">c</span>(<span style="color:#e6db74">&#34;1978-97&#34;</span>, <span style="color:#e6db74">&#34;1998-00&#34;</span>, <span style="color:#e6db74">&#34;2001-06&#34;</span>, <span style="color:#e6db74">&#34;2007-12&#34;</span>, <span style="color:#e6db74">&#34;2013-19&#34;</span>)) <span style="color:#f92672">+</span> 
+    <span style="color:#a6e22e">theme</span>(axis.text.x <span style="color:#f92672">=</span> <span style="color:#a6e22e">element_text</span>(angle <span style="color:#f92672">=</span> <span style="color:#ae81ff">27</span>, vjust <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5</span>))
+</code></pre></div><p>\begin{center}\includegraphics{project1.ethanpieniazekweb_files/figure-latex/unnamed-chunk-15-1} \end{center}
+<em>This plot shows how the comedies compare to the non-comedies when average domestic box office sales is concerned, based on quintile. I made the quintiles to better compare observations as otherwise it would simply be a plot of each year&rsquo;s average revenue (in some cases just being the revenue one movie brought in rather than a true average since it was the only one for a particular year). Forming five quintiles from the years made it more intuitive to see which range of years brought in the most revenue for these highly vulgar movies. As one can see the fifth quantile has the highest average revenue in both the comedy and non-comedy groups. This may partly be due to the top 3 grossing films in the dataset being from the fifth quartile (&ldquo;22 Jump Street&rdquo;, &ldquo;Straight Outta Compton&rdquo;, and &ldquo;The Heat&rdquo;), but making five quintiles allows for a better assessment of average revenue than if one were to divide the years into 10 quintiles for such a small dataset. The non-comedies consisting of action films, dramas, crime films, etc. on average did better in the box office than the comedies until after 2006. Another interesting trend is that the average revenue for the non-comedies in first quintile starts strong, but tapers off or remains close to the first quintile in later years. The comedies on the other hand always show a considerable increase in average revenue as the quintiles proceed to 2013-2019, the quintile with highest revenue in the comedy group as well as when compared to the non-comedies.</em></p>
+<h1 id="clustering">Clustering</h1>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(cluster)
+filmsclust <span style="color:#f92672">&lt;-</span> filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(fbombs, minutes, domesticgross, 
+    fbombspermin)
+sil_width <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">vector</span>()
+<span style="color:#a6e22e">for </span>(i in <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>) {
+    pam_fit <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">pam</span>(filmsclust, k <span style="color:#f92672">=</span> i)
+    sil_width[i] <span style="color:#f92672">&lt;-</span> pam_fit<span style="color:#f92672">$</span>silinfo<span style="color:#f92672">$</span>avg.width
+}
+<span style="color:#a6e22e">ggplot</span>() <span style="color:#f92672">+</span> <span style="color:#a6e22e">geom_line</span>(<span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>, y <span style="color:#f92672">=</span> sil_width)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">scale_x_continuous</span>(name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;k&#34;</span>, 
+    breaks <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">10</span>)
+</code></pre></div><p>\begin{center}\includegraphics{project1.ethanpieniazekweb_files/figure-latex/unnamed-chunk-16-1} \end{center}</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">pamfilms <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">pam</span>(filmsclust, k <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>)
+silpam <span style="color:#f92672">&lt;-</span> <span style="color:#a6e22e">silhouette</span>(pamfilms)
+<span style="color:#a6e22e">plot</span>(silpam)
+</code></pre></div><p>\begin{center}\includegraphics{project1.ethanpieniazekweb_files/figure-latex/unnamed-chunk-16-2} \end{center}</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r">finalfilmsclust <span style="color:#f92672">&lt;-</span> filmsdata <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">mutate</span>(cluster <span style="color:#f92672">=</span> <span style="color:#a6e22e">as.factor</span>(pamfilms<span style="color:#f92672">$</span>clustering))
+<span style="color:#a6e22e">ggplot</span>(finalfilmsclust, <span style="color:#a6e22e">aes</span>(x <span style="color:#f92672">=</span> domesticgross, y <span style="color:#f92672">=</span> fbombspermin, 
+    color <span style="color:#f92672">=</span> cluster)) <span style="color:#f92672">+</span> <span style="color:#a6e22e">geom_point</span>()
+</code></pre></div><p>\begin{center}\includegraphics{project1.ethanpieniazekweb_files/figure-latex/unnamed-chunk-16-3} \end{center}</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#a6e22e">library</span>(GGally)
+finalfilmsclust <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">select</span>(fbombs, minutes, domesticgross, fbombspermin, 
+    cluster) <span style="color:#f92672">%&gt;%</span> <span style="color:#a6e22e">ggpairs</span>(columns <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span><span style="color:#ae81ff">4</span>, <span style="color:#a6e22e">aes</span>(color <span style="color:#f92672">=</span> cluster))
+</code></pre></div><p>\begin{center}\includegraphics{project1.ethanpieniazekweb_files/figure-latex/unnamed-chunk-16-4} \end{center}
+<em>After performing PAM and kmeans clustering, I found out the two clustered the data quite differently. I went with PAM as the clusters seemed more distinct for the variables at hand. After making a new dataframe only containing the numeric variables of interest (fbombs, minutes, domesticgross, and fbombspermin), sil_width showed it made the most sense to cluster into two after analysis of the plot.When viewing the separate silhouette plot, PAM clustering showed there was strong structure (average silhouette width = 0.78) to be found between the two clusters, so most of the values belonged to the clusters they were assigned.</em></p>
+<p><em>The ggpairs package provided a nice cohesive summary all in one chart, separated into several boxes based on information about correlations between two variables concerning the clusters. The the number of f-bombs in a film was shown to almost have much no correlation to the domestic box office sales. So increased cursing in a film did not correlate with increased revenue or vise versa, which makes sense since all these films are rated R and the target audience is greatly limited to adults. The highest positive correlation was seen between ‘fbombspermin’ and ‘fbombs’. Both cluster 1 and 2 exhibited this with values at 0.89 and 0.83 respectively. This also makes sense because the more f-bombs a film has is going to directly correlate with more f-bombs that film has per minute.</em></p>
+<p><em>Taking information gathered from the ggpairs analysis, plotting with ggplot based on x = ‘domesticgross’ and y = ‘fbombspermin’ was performed as the clusters appeared the most separated and the two variables compared the most relevant. After looking at the ggplot as well as the data itself (arranging descending by variable) for the dataframe with the now included clusters it was apparent that clustering was largely based on how well the film did at the box office. Having a relatively small dataset made understanding and comprehension the data very manageable, as direct films could easily be found from cluster 2.  It was really neat to find out with exceptions that most of the top grossing films ended up having only a moderate amount of f-bombs per minute when compared to many from cluster 2. Of course outliers such as “The Wolf of Wall Street” and “Straight Outta Compton” ended up doing exceptionally well despite the frequency of the word, but these are the only 2 out of 20 that showed this difference in cluster 1. Of course all 132 of these films had tons of vulgar language as they were the ones that made the &ldquo;List of films that most frequently use the word &ldquo;f$#%&quot;, but nevertheless it was a fun time exploring the several differences and similarities between them.</em></p>
+
+              <hr>
+              <div class="related-posts">
+                <h5>Related Posts</h5>
+                
+              </div>
+            </div>
+          </div>
+          <hr>
+        <div class="disqus">
+  <div id="disqus_thread"></div>
+  <script type="text/javascript">
+
+    (function() {
+      
+      
+      if (window.location.hostname == "localhost")
+        return;
+
+      var disqus_shortname = '';
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  <a href="http://disqus.com/" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</div>
+        </div>
+      </div>
+      
+    </div>
+
+    
+    <footer>
+  <div id="footer">
+    <div class="container">
+      <p class="text-muted">&copy; All rights reserved. Powered by <a href="https://gohugo.io/">Hugo</a> and
+      <a href="http://www.github.com/nurlansu/hugo-sustain/">sustain</a> with ♥</p>
+    </div>
+  </div>
+</footer>
+<div class="footer"></div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="/js/docs.min.js"></script>
+<script src="/js/main.js"></script>
+
+<script src="/js/ie10-viewport-bug-workaround.js"></script>
+
+
+    
+  </body>
+</html>
