@@ -1,2 +1,0 @@
-blogdown::new_site(theme="nurlansu/hugo-sustain")
-#<h3>Check out my <a href="resume.pdf" target="_blank">resume</a>.</h3>
