@@ -3,13 +3,13 @@ title: 'Modeling'
 author: "Ethan Pieniazek"
 showpagemeta: false
 output:
-  pdf_document:
-    toc: no
   html_document:
     toc: yes
     toc_float:
       collapsed: no
       smooth_scroll: yes
+  pdf_document:
+    toc: no
 ---
 
 ```{r setup, include=FALSE}
