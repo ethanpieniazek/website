@@ -1,8 +1,8 @@
 ---
-title: Dirtbagging and R meets Python
-author: Ethan Pieniazek
-date: '2020-05-07'
-slug: r-meets-python
+title: Dirtbagging and R Meets Python
+author: ''
+date: '2020-05-14'
+slug: dirtbagging-and-r-meets-python
 categories: []
 tags: []
 description: ''
