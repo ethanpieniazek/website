@@ -7,7 +7,7 @@
     <meta name="author" content="Ethan Pieniazek" />
     <meta name="description" content="Describe your website">
     <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
-    <title>Project 2: Modeling</title>
+    <title>Modeling</title>
     <meta name="generator" content="Hugo 0.69.2" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="/css/main.css" />
@@ -385,21 +385,21 @@ resid_resample &lt;- replicate(5000, {
 })
 resid_resample %&gt;% t %&gt;% as.data.frame %&gt;% summarize_all(sd)</code></pre>
 <pre><code>##   (Intercept) total_population_c NCHS_urbanizationLarge central metro
-## 1    135.5432       0.0006350213                             419.4915
+## 1    130.5952        0.000618538                             403.2631
 ##   NCHS_urbanizationLarge fringe metro NCHS_urbanizationMicropolitan
-## 1                            190.4484                      314.7461
+## 1                            188.3931                      333.1605
 ##   NCHS_urbanizationNon-core NCHS_urbanizationSmall metro
-## 1                  657.6085                     194.0616
+## 1                  652.7622                     194.5498
 ##   total_population_c:NCHS_urbanizationLarge central metro
-## 1                                            0.0006636752
+## 1                                            0.0006474377
 ##   total_population_c:NCHS_urbanizationLarge fringe metro
-## 1                                           0.0007602587
+## 1                                           0.0007263921
 ##   total_population_c:NCHS_urbanizationMicropolitan
-## 1                                      0.003725387
+## 1                                      0.004057287
 ##   total_population_c:NCHS_urbanizationNon-core
-## 1                                  0.006472801
+## 1                                   0.00645326
 ##   total_population_c:NCHS_urbanizationSmall metro
-## 1                                     0.002076223</code></pre>
+## 1                                     0.002141251</code></pre>
 <pre class="r"><code>coeftest(linear)[, 1:2]</code></pre>
 <pre><code>##                                                              Estimate
 ## (Intercept)                                              1.263098e+02
@@ -542,8 +542,8 @@ for (i in 1:k) {
     diags &lt;- rbind(diags, class_diag(probs, truth))
 }
 summarize_all(diags, mean)</code></pre>
-<pre><code>##         acc      sens     spec       ppv       auc
-## 1 0.9833096 0.9966733 0.402619 0.9864114 0.9820656</code></pre>
+<pre><code>##         acc      sens      spec       ppv      auc
+## 1 0.9833096 0.9966611 0.4096032 0.9863939 0.984862</code></pre>
 <p><em>Mutate was first used to create a new binary variable ‘y’ in the dataset that output 1 if the urbanization area was a large central metropolitan and a 0 if it was not (any of the other 5 urbanization categories). I thought this was interesting because it allows viewing of how the “big cities” compared to each other as well as the other urbanization categories. “Y” was predicted from three explanatory variables: ‘confirmed_per_100000’, ‘deaths_per_100000’, and ‘total_population’ and then exponentiated to obtain the odds for each coefficient opposed to making sense of the log odds obtained from the logistic regression. The intercept coefficient shows the odds of a county being from a large central metropolitan when the confirmed cases per 100,000, deaths per 100,000, and total population are all equal to 0 (odds = .0031). It makes sense the odds are incredibly low for this. When controlling for ‘deaths_per_100000’ and ‘total_population’, for every additional unit in ‘confirmed_per_100000’ the odds of a county being a large central metropolitan increase by almost 1 (.9995) but was not significant (p &gt; .05). Likewise, when controlling for ‘confirmed_per_100000’ and ‘total_population’, for every additional unit in ‘deaths_per_100000’ the odds of a county being a large central metropolitan increase by over 1 (1.016) yet is still not significant (p &gt; .05). Lastly, when controlling for ‘deaths_per_100000’ and ‘confirmed_per_100000’, for every additional unit in ‘total_population’ the odds of a county being a large central metropolitan increase by 1 and is significant (p &lt; .001). This intuitively makes sense as population is the greatest indicator where a county stands when the urbanization category is concerned.</em></p>
 <p><em>After making the confusion matrix the accuracy, sensitivity, specificity, and precision could be calculated. However, the ‘class_diag’ function written by Dr. Woodward was used to easily get these measures instead. The proportion of observations that were correctly classified (accuracy) was .983. A proportion of .422 of the urbanization category ‘large central metro’ were classified correctly (the true positive rate) and .997 of observations that did not fall in the ‘large central metro’ category were classified correctly (the true negative rate). The precision stood at a proportion of .75 observations classified as ‘large central metro’ that actually were. Overall it seems the model does well at predicting an observation that falls in the urbanization category ‘large central metro’ from the three explanatory variables.</em></p>
 <p><em>The significant output from the GLM foreshadows that this model may be a good predictor for the binary variable: ‘Large central metro’ (1) and ‘Not large central metro’ (0). The ROC curve works as a visual representation for how well the model is able to differentiate between these two classifications by using the measures of sensitivity and septicity. The ROC curve is great since it stays away from the dashed line as it shoots upwards almost to 1 and then right directly following the tick on the y-axis at 1. The curve illustrates how strong the AUC (the area under the curve) will be and after calculating AUC with the plotROC package, it can be seen the AUC is great at .986. This value for AUC summarizes what the ROC curve shows, but in just one value. Both tell us our model is indeed a great predictor for the binary variable when given the predictors.</em></p>
@@ -560,8 +560,8 @@ lasso &lt;- glmnet(x, y, family = &quot;binomial&quot;, lambda = cv$lambda.1se)
 coef(lasso)</code></pre>
 <pre><code>## 6 x 1 sparse Matrix of class &quot;dgCMatrix&quot;
 ##                              s0
-## (Intercept)          -4.0953611
-## total_population      0.8901898
+## (Intercept)          -3.9726519
+## total_population      0.6777316
 ## confirmed             .        
 ## confirmed_per_100000  .        
 ## deaths                .        
@@ -580,7 +580,7 @@ for (i in 1:k) {
 }
 diags %&gt;% summarize_all(mean)</code></pre>
 <pre><code>##         acc      sens      spec       ppv       auc
-## 1 0.9829433 0.9958784 0.4421429 0.9867344 0.9864737</code></pre>
+## 1 0.9825863 0.9959108 0.4113095 0.9863937 0.9851201</code></pre>
 <p><em>Lasso was used to find the most important predictors for the model to result in one with increased accuracy and less overfitting. Two matrices (x and y) were first created where y had the binary response variable ‘y’ (1 = Large central metro, 0 = Not large central metro). ‘Select’ was used when making x to ensure only all the numeric variables were being mutated as a matrix. After using the glmnet package to run lasso it was found the predictor ‘total_population’ was the most important. This already intuitively makes sense as a county must have a large population to be classified as a large central metropolitan.</em></p>
 <p><em>After performing a 10-fold cross validation on the lasso model, it can be seen the model does a great job at predicting whether a county is a large central metropolitan or not from the total population. The accuracy was .9833083 although slightly lower than the value obtained from the logistic regression, but the different predictors: ‘deaths_per_100000’, ‘confirmed_per_100000’, and ‘total_population’ were used for the logistic regression model instead (acc = .9833091).</em></p>
 </div>
