@@ -20,8 +20,10 @@ theme = "hugo-sustain"
   custom_js  = []
 
 [params.social]
-  Github        = "ethanpieniazek"
   Email         = "ethanpieniazek@gmail.com"
+  Github        = "ethanpieniazek"
+  Facebook      = "ethan.pieniazek"
+  Instagram     = "bitoflo"
 
 ## Main Menu
 [[menu.main]]
