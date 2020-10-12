@@ -23,7 +23,6 @@ theme = "hugo-sustain"
   Email         = "ethanpieniazek@gmail.com"
   Github        = "ethanpieniazek"
   Facebook      = "ethan.pieniazek"
-  Instagram     = "bitoflo"
 
 ## Main Menu
 [[menu.main]]
