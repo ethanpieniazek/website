@@ -9,8 +9,14 @@ title: Projects
 ---
 ## Projects 
 
-Here are some projects I have recently completed:
+I find data analysis and visualization pretty cool:
 
-- [Exploratory Data Analysis with Tidyverse Tools](/project1.ethanpieniazekweb/)
+- [The Effect of Climbing on Lichen Growth at Enchanted Rock](/RMInquiry4web/)
+
+- [Chernobyl Exploratory Data Analysis](/RMInquiry3web/)
+
+- [The Effect of Coffee on Quincy Pinto Bean Growth](/RMInquiry2web/)
 
 - [Modeling, Testing, and Classification](/project2.ethanpieniazekweb/)
+
+- [Exploratory Data Analysis with Tidyverse Tools](/project1.ethanpieniazekweb/)

@@ -1,0 +1,120 @@
+---
+title: 'The Effect of Coffee on Quincy Pinto Bean Growth'
+author: "Ethan Pieniazek"
+date: "October 18, 2020"
+output:
+  pdf_document:
+    toc: no
+  '': default
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, eval = TRUE, fig.align = "center", warning = F, message = F,
+tidy=TRUE, tidy.opts=list(width.cutoff=60))
+```
+```{r include=FALSE}
+library(tidyverse)
+library(lmtest)
+library(plyr)
+in2data<-read.csv('/Users/bitoFLO/Desktop/Website/content/IN2datacsv.csv')
+in2data<-in2data%>%mutate(y=ifelse(treatment=="c",1,0))
+```
+
+### ABSTRACT
+
+Coffee is a staple for people around the world when it comes to morning routines, consuming caffeine, and conversing with family and friends. Slightly acidic and bearing the properties based upon where the beans were grown geographically as well as topographically, coffee can also differ based on how it was brewed. In this experiment Quincy pinto beans were primarily used for the reason that they germinate relatively fast, are tolerant to heat, and are easy to grow. They were also provided for the class so that was an added bonus. Statistical analysis was performed to show that when watering Quincy pinto beans with a diluted coffee ratio of 1 part coffee to 4 parts tap water growth was not affected significantly after 108 hours of recording plant growth following germination.
+
+### INTRODUCTION
+
+The Quincy pinto bean was a variety developed to provide resistance and thus protection against the dreaded black root rot found throughout the Western hemisphere. The fungus Thielaviopsis that causes the disease has proven to be difficult to eliminate once it takes hold and can lead to detrimental crop loss for farmers nationwide (Hammond, Jordan, 2008). These beans are favored amongst students and teachers alike as they grow fairly fast once germination is complete (roughly 4-8 days from my experience). They are inexpensive, require little sunlight to grow, and grow surprisingly well and rapidly inside a classroom or apartment windowsill without having to be sown outdoors.
+
+Caffeine, especially consumption in the form of coffee is widely popular across the world just as it is in West. It has been collectively acclaimed and shown to be the world’s favorite drug. Because of the high use levels among members of society caffeine can also serve as a valuable tracer for measuring the anthropogenic effects that could be leading to aquatic system contamination (Henderson, Landeweer, 2020). These are interesting implications especially with the continuous effects humans are impacting the environment with each and every day.
+
+The inspiration for the project came from the love of coffee and genuine curiosity if it could stimulate plants as it would humans. Finding out that beans have an increased predilection towards an acidic environment while the City of Austin tap water has shown to be more alkaline than expected with city reports showing a pH of 9.6 after treatment from the three facilities (Austin Water, 2020). When I tested the pH myself with Universal Test Paper I obtained a result between 7 and 8 when comparing the strip with the reference. Since coffee has an acidic pH it got me thinking if pinto beans could better thrive when watered with diluted coffee opposed to water from the Austin tap. The question of whether a solution of diluted coffee used to water plants throughout growth may be better than the common approach of only using water may have appealing approaches for how gardeners may want to care for their house plants especially if coffee is already a part of their daily routine. 
+
+### EXPERIMENTAL DESIGN
+
+#### Supplies:
+I used a Chemex pour-over coffeemaker, appropriate filter, manual burr grinder, gooseneck kettle, scale, and a light roast single origin whole bean coffee to obtain the coffee used for dilution. I used water from the tap to brew the coffee and have included the additional supplies below that were used to carry out the experiment once a sufficient amount of coffee is obtained. For reference I used 15 grams of course ground beans and 250mL of water to make 250mL of coffee that was then diluted in a 4:1 ratio.
+
+* Seedz brand Quincy Pinto Dry Bean
+* Scotts Premium Topsoil
+* 9oz Solo Squat Plastic Cups
+* Metric ruler
+* 50ml plastic syringe
+* 50ml plastic measuring cup
+* 2 bottles/cups with lids
+* Cling wrap
+
+#### Procedure:
+
+##### Planting the beans:
+
+1. Take 10 cups and fill them with soil where there is roughly one inch of space leftover below the brim of the cup.
+2. Use your finger to dig three 1”-1.5” holes. Place one pinto bean in each hole and cover with soil. Repeat this for each cup until you have 10 cups with 3 beans planted in each.
+3. Use the 50mL syringe to measure 30ml of tap water. Distribute this amount to each cup by watering to saturate the soil so the beans can germinate.
+4. Cover with cling wrap to ensure moisture is kept in the potted beans.
+5. After 3 days check the moisture of the soil and add 30mL of water again to each potted bean with the syringe. Cover again with cling wrap.
+6. Around day 7 hopefully most of the beans have germinated. This is when it is time to put the cups in a windowsill to start the experiment. A south facing window can be nice for allowing sunlight to reach the beans, but any windowsill should suffice. 
+
+##### Steps after germination:
+
+1. Use the measuring cup to measure out 100ml of coffee (1 part) and pour the coffee into a bottle/cup with a closeable lid (if using a bottle make sure it is wide enough to allow the 50ml syringe to fit once the lid is off)
+2. To the same cup add 400ml of tap water (4 parts) and stir
+3. Now add 500ml of tap water to the other bottle/cup and cover with the lid. These are the solution/solvent you will use to water each set of 5 cups.
+4. Twice a day (for example 9am and 9pm) water each cup using the syringe with 10mL from the respective solution/solvent (tap water or diluted coffee). After watering use a metric ruler to record growth of each plant in cm. Take these measurements twice a day when you water the beans. 
+5. Record the heights and make sure to keep the data organized. You will most likely find in some cups two or even all three beans may sprout instead of one. Start recording heights from additional beans that sprout throughout the process to gather more data, just make sure to have the cups labeled and take note of the bean plants and where the stem is in relation to the cup. It can get easy to mix up fast if you move cups around without labeling or use an improper way of recording the data that may allow it to get jumbled. 
+* After experimentation I found it is important to have a device capable of measuring the plants throughout their growth. Over time I discovered the plants outgrew the 30cm ruler and the only other devices I had to measure were standard tape measures. I decided to not include the data after 4.5 days due to this.
+* If I could make another suggestion where error occurred, it would be to measure the plants from the soil to the highest part of the stem. I found that measuring to the leaves can introduce errors in accuracy especially when leaves start to get bigger.
+* Once germinated these bean plants grew quicker than I anticipated. The change in growth day to day was quite phenomenal and looking back on this a program to measure growth based on a picture taken from the same place and angle everyday could help with quantifying plant growth. 
+
+### ANALYSIS
+
+Data was initially collected in Excel and was then tidied to get it into a long format. The excel file was converted into a csv so it could be read in r to better conduct statistical tests and create plots. The null and alternative hypotheses are stated below:
+
+*H0: The differences in means between plant height per 12 hours and treatment condition are equal.*
+
+*HA: The differences in means between plant height per 12 hours and treatment condition differ significantly.*
+
+Below I attached a plot to better visualize the plant heights. Data was recorded every 12 hours to obtain 99 independent observations over 108 hours. For the coffee condition there were a total of five plants spread out over four pots and for the control there were a total of 6 plants spread out over five pots. I plotted the mean height for each treatment condition every 12 hours and added a regression line to the scatterplot to better for both treatments to visualize the data. I used a quadratic fit as it seemed to model the data better than a linear model. 
+
+```{R}
+ggplot(in2data, aes(x = time, y = height, color = treatment)) +
+  geom_point(stat="summary",size=2) + scale_color_manual(values = c("c" = "coral", "w" = "cornflowerblue")) + 
+  geom_errorbar(stat = "summary") + geom_smooth(method = "lm",formula = y ~ x + I(x^2),aes(color=treatment),se=FALSE) + scale_x_continuous(breaks=seq(0, 108, 12)) +
+  ggtitle("Mean Heights over Time for Plants in the Water and Coffee Condition") +
+  xlab("Time (hours)") + ylab("Height (cm)") + theme_minimal(base_size = 12)
+```
+
+I used R to regress height on treatment, time and time squared. The intercept summarized the value for plant height being 1.482 cm when the reference group in this case being the plants watered with diluted coffee had a height equal to the mean. Below lies the output for the linear regression:
+
+```{R}
+linear <- lm(height~treatment+time+I(time^2), data = in2data)
+summary(linear)
+```
+
+It appeared that treatment condition was not statistically significant in predicting plant height where p>.05, F = 60.30, and df = 95. In this case the null hypothesis cannot be rejected. Thus there is not significant evidence to say that the plant height differences between the two conditions were not equal. 
+
+### CONCLUSIONS
+
+According to the linear regression I found that Quincy pinto beans do not show a mean difference in height when watered with diluted coffee in a 4:1 ratio. Initial thoughts about coffee pottentially aiding plant growth by counteracting the alkaline nature of The City of Austin tap water could not be supported. I thought the coffee also may have contained micronutrients that benefited the Quincy pinto bean plants throughout their growth and while this could be true the statistics do not say there is a significant difference between the two treatment conditions. I also did not notice any difference between leaf quality or color between the two groups although it may be intersting to carry out the experiment again with greater concentrations of coffee when watering the plants. A full strength coffee treatment could be intersting as I wonder if it could affect the appearance of the plants.
+
+The most important thing I learned in this scientific inquiry was the necessity of being accurate, organized, and thorough to obtain worthy results. Watering the plants twice a day with a measured syringe when measurements were recorded and keeping all other variables constant were successful steps towards obtaining good data. However, to really maintain accuracy it would have helped to have a few more important issues addressed. When measuring plant growth choosing a device such as a ruler was fine, until plants started to outgrow the ruler. This completely caught me off-guard and I did not know what to do as the only other ways I had to measure the plants were a standard tape measure that could not record at the same degree as the metric ruler. I decided because of this flaw to stop collecting data on day 4.5 after most of the plants germinated. This taught me an important lesson that when a response variable such as height is concerned a device appropriate to be used throughout the whole experiment needs to be used instead of one that will work for a portion of the experiment. Another issue I had was when taking the heights of the different plants. If I could go back, I would have measured total stem growth opposed to including leaves in the measurement. As leaves got bigger it became more unclear how to measure the plant when the leaf was concerned as well. Germination was another issue as all bean plants regardless of condition were watered with tap water throughout the seven-day period of germination. This was to ensure success so I would at least have plants to grow that I could then subject experimentation since I had a deadline. Since the coffee was heavily diluted, I think it would be interesting to go back and include the treatment conditions during germination. It was unfortunate that when most plants had sprouted a few still had not. Because of this I recorded their heights at 12 hours to be zero.
+
+### SOURCES
+
+1. Henderson, A., Ng, B., Landeweer, S. et al. Assessment of Sucralose, Caffeine and Acetaminophen as Anthropogenic Tracers in Aquatic Systems Across Florida. Bull Environ Contam Toxicol 105, 351–357 (2020). https://doi.org/10.1007/s00128-020-02942-6
+
+2. Jordan, R., Hammond, J. 2008. Bean common mosaic virus and bean common mosaic necrosis virus. Encyclopedia of Virology, 3rd Ed. (B.W.J. Mahy and M.H.V. Van Regenmortel, Eds). 1:288-295. 
+
+3. Austin Water. (2008). Water Quality Summary 2nd Quarter 2020. City of Austin. https://www.austintexas.gov/department/water-quality-report-summaries 
+
+### DATA
+```{R, echo=FALSE}
+print(in2data)
+```
