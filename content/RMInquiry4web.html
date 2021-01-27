@@ -1,0 +1,255 @@
+---
+title: 'The Effect of Climbing on Lichen Growth at Enchanted Rock'
+author: "Ethan Pieniazek"
+date: "December 11, 2020"
+output:
+  pdf_document:
+    toc: no
+  '': default
+  html_document:
+    toc: yes
+    toc_float:
+      collapsed: no
+      smooth_scroll: yes
+---
+
+
+
+<div id="abstract" class="section level2">
+<h2>Abstract</h2>
+<p>The growth of lichen on the surface of the granite domes at Enchanted Rock State Natural Area was explored and analyzed in the context of the effect climbing may pose to the environment. Quadrats were used in this study four routes (two traditional and two sport) to compare both on-route and off-route portions of the rock as well as traditional routes to the sport lines based on lichen cover. Statistical analysis was conducted in R on both these topics of interest and there was found to be no significant difference between on-route and off-route mean lichen cover proportions as well as between routes classified as traditional or sport.</p>
+</div>
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Year after year it appears recreational climbing is growing at an increasing rate. In 2021 for the first time, indoor competitional climbing will be included in the Summer Olympics. When it comes to partaking in the activity on natural cliff faces it generally boils down to two disciplines: traditional climbing and sport climbing. Traditional climbing involves the climber placing modern removable gear into features of the rock such as cracks, flakes, and pockets for temporary and non-permanent protection that is then removed when the second climber is brought up the wall. These routes generally follow obvious lines such as the crack systems nature provides. Sport climbing consists of bolts that have been permanently drilled into the rock to offer climbers a reliable way to safely climb when the cliff face lacks natural features to protect or the rock quality is less than ideal. This form of climbing offers a lower barrier of entry as one does not have to have nearly as much gear to make use of fixed bolts for protection from potential falls. Although the ease and convenience of sport climbing are nice it can attract more attention from the pool of climbers resulting in a greater impact on the various crags. For this final inquiry, I wanted to explore the observable differences in terms of lichen growth between the two disciplines as well as how the growth of lichen differs on-route and off-route.</p>
+<p>Cliff faces are found in an array of biomes and are generally considered to be inaccessible to humans, leaving microhabitats for species to take refuge and or grow. Since these species live in these extreme and hard to reach areas if disturbed there could be disastrous effects on their ability to survive and propagate (Holzschuh, 2016). Because of the increased popularity of climbing, there are potential impacts the sport could have on these habitats especially if areas are overcrowded. Removal of soil and plants, as well as traces of magnesium carbonate hydroxide known as chalk, can be a common sight at a crag and the alkaline properties can differ from the geology where they are found (Hepenstrick, Bergamini, &amp; Holderegger, 2020). Different features of the rock may also be better at maintaining vegetation and soil than others such as horizontal cracks and pockets when compared to bolted vertical faces and vertical cracks (Kuntz &amp; Larson, 2006). While bolted sport climbs may see more traffic than traditional routes the features such as cracks that vary in size offering natural protection may be home to various species of wildlife such as different kinds of birds, bats, and snakes. For example, while climbing a renowned route at Devils Tower in Wyoming, I witnessed a cliff swallow swoop into the finger-sized crack I was using for protection. Areas in the Mediterranean region such as the limestone cliffs in Spain have also been shown to encompass an array of rare species important for biodiversity conservation (Lorite, Serrano, Lorenzo, Cañadas, Ballesteros, &amp; Peñas, 2017).</p>
+<p>For this inquiry, I focused on the Enchanted Rock State Natural Area to collect data to analyze the different varieties and amounts of lichens present on and near established climbing routes across the different areas of the pink granite batholith. Enchanted Rock is located in Texas approximately 100 miles west of Austin and just north of Fredericksburg. When compared to some other places Enchanted Rock could be considered off the beaten path and there seems to be a trend that areas with lengthier and more involved approaches to reach the base of a climb are also better at keeping crowds away. It is important to note the crags that see the greatest adverse impacts from climbing are often those that are among the easiest to access, which proves to be a double-edged sword in many ways. The orange, green, grey, and black lichens found on the rock features of Enchanted Rock are of the greatest interest in this experiment as they prove to be some of the toughest organisms enabling them to thrive in conditions that would prove unsuitable for many other species (March, Moreno, Palomar, Tejero, Haeuser, &amp; Pertierra, 2018). In short, the presence and abundance of lichen growth between different portions of the rock face will be explored and analyzed.</p>
+</div>
+<div id="experimental-design" class="section level2">
+<h2>Experimental Design</h2>
+<div id="supplies" class="section level5">
+<h5>Supplies:</h5>
+<p>Data were collected on two separate visits to Enchanted Rock where two routes were photographed each visit. The supplies for the experiment included a digital camera (in this case an iPhone), a tape measure, and a PVC quadrat. A partner was also needed to capture photographs safely. The PVC quadrat was divided into 25 5 x 5cm squares measuring a total area of 25 x 25cm. It was enclosed in PVC pipe where the squares were constructed with thick nylon string.</p>
+</div>
+<div id="safety-considerations" class="section level5">
+<h5>Safety considerations:</h5>
+<p>It is important to address the safety concerns that accompany collecting data in the field. Packing enough water for the day was necessary as some approaches can take approximately one hour. The same goes for food as it is important to bring snacks along while ensuring to leave no trace and pick up what others may have left behind. The trails can easily be hiked in sandals but is a good idea to have some closed-toe shoes with good tread as it is more conducive for the granite slabs. Species native to the area such as the Western diamondback rattlesnake also makes shoes a sensible choice as well as self-awareness of one’s surroundings. All data was collected from the ground on the four established routes of interest with the help of my partner. This way neither of us was introducing anything into the experiment that could have dangerous implications such as technical climbing.</p>
+</div>
+<div id="route-selection" class="section level5">
+<h5>Route selection:</h5>
+The four established routes were all of classic status for the area with a difficulty ranging from easy to moderate. This classic status practically ensures the routes are frequently climbed when climbers visit the area. Data were collected for an easy traditionally protected crack (<em>Sweat</em>) and a moderate sport route (<em>Pro Sweat</em>) both located on News Wall of the Main Dome area of Enchanted Rock. The other two routes existed in Echo Canyon; a separate area technically considered to still be a part of the Main Dome complex. In Echo Canyon, a moderate traditionally protected crack (<em>Orange Peel</em>), as well as a moderate sport route (<em>Orient Express</em>), were the subject of interest. Below is a map courtesy of Google Maps of the area with the two areas marked along with the trail entrance that starts at the main parking lot.
+<p>
+<img src="/Users/bitoFLO/Dropbox/research%20methods/inquiry%204%20photos/Screen%20Shot%202020-11-23%20at%2020.05.47.png" alt="cap" />
+<p>
+</div>
+<div id="data-collection" class="section level5">
+<h5>Data collection:</h5>
+The tape measure was used to measure the length from the ground to the highest point of interest. I decided to take photos of each route with the PVC quadrat measuring 7ft and 9ft off the ground as well as 3ft to the right of each route at these same heights. These distances were chosen to standardize data collection and provide a distance high enough off the ground without leaving the ground. For the sport routes, this meant two photos directly below the bolt line and two photos 3ft to the right of the line. As for the case of the cracks, this meant two photos immediately left of the crack (7 and 9ft) as well as the four photos 3ft to the right of the crack. There were a total of four routes analyzed and four photos were taken at each site for a total of 16 photos to be used in the analysis.
+<p>
+<img src="/Users/bitoFLO/Dropbox/research%20methods/inquiry%204%20photos/IMG_9518.jpeg" alt="cap" />
+<p>
+After photos were taken it was important to take notes about what part of the route the various photos pertained to to conduct the analysis. The PVC quadrat served nicely to separate the surface area of the rock in the 25 x 25cm grid so that the growth of lichen could be quantified. In the photo above one can see the different colors of lichen covering the granite dome, right of the crack <em>Sweat</em>. I used the tape measure to find the spot that was 3ft to the right to then collect the off-route data with the quadrat. Below shows one of the many photos taken with the PVC quadrat held against the rock, in this case it is being held immediately to the left of <em>Sweat</em> to collect on-route data. I attached one more on route photo of the sport line <em>Orient Express</em>. One can take notice of the differences in lichen cover between these two photos.
+<p>
+<img src="/Users/bitoFLO/Dropbox/research%20methods/inquiry%204%20photos/sweat/Screen%20Shot%202020-11-23%20at%2014.22.00.png" alt="cap" />
+<p>
+<img src="/Users/bitoFLO/Dropbox/research%20methods/inquiry%204%20photos/orient/Screen%20Shot%202020-11-21%20at%2022.49.37.png" alt="cap" />
+<p>
+</div>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<div id="data-processing-and-uncertainty" class="section level5">
+<h5>Data processing and uncertainty:</h5>
+<p>For the analysis I thought it was best to focus on my two questions of interest being; how does lichen cover differ between off-route and on-route conditions when climbing is concerned and how does lichen cover differ on-route between traditional and sport climbs. I ended up with four observations for each of the four different routes. Lichens of different colors were measured and sorted into the following groups: black, orange, light grey, dark grey, dark green/brown, and neon green. Light grey and dark grey were then consolidated into the “grey” group and neon green was consolidated with dark green/brown to obtain the “dark green brown” group. Neon green colored crustose lichen was seen in very low proportions compared to the other colors, which is also why I thought it was appropriate to combine the data. The light grey colored lichen was the only one of a foliose variety, but it was consolidated with the grey colored lichen to simply look at the four main colors seen on the surface of the granite.</p>
+<p>Counting the amounts of lichen proved to be trickier than I expected. It also took longer than anticipated once I realized the shortcomings with counting particular lichens on the first route <em>Orient Express</em>. This route was visited again at the end for a recount using the new methods I found for obtaining counts for each color. The free open-source photo editing software Gimp was used to edit the photos and count lichens. The first step was separating the area of interest from the PVC quadrat as well as the region beyond the quadrat. By using the ‘scissors selector’ tool I was able to cut out the 25 x 25cm area. This gave me the total amount of pixels in the frame, which I recorded for each photo for the data analysis. Then, I thought it would be simplest to use the ‘select by color’ tool that lets one select a color as it finds all related colors in the photo. This proved to have some troubles. The uncertainty and sources of potential error go as follows. First, light grey colored lichen was identified as in the same color range of the cord separating the quadrat, so it was apparent light grey lichen needed to be counted manually. This was done using the ‘lasso’ tool to encircle the light grey lichen in each 5 x 5cm square to record the values for each patch of light grey lichen. These numbers were then summed to obtain the total pixel count for the light grey lichen for the observation. This was also done for the color orange since the shades of orange lichen varied too drastically to obtain an accurate representation from the ‘select by color’ tool. The ‘select by color’ tool was used for the rest of the lichen colors by selecting five different places on the photo, recording the pixel count, and taking the average of those numbers. This was done for black, dark grey, lime green, and dark green/brown. The black-colored lichen showed the max value among the total proportion of lichen cover in each photo as it was frequently seen covering over 10% of the photo area used for analysis. The issue with the black lichen was that it could also be mistaken for minerals in the granite such as hornblende or biotite. However, upon analysis of the photo, it was apparent which photos contained black lichen. If the photo contained an amount resembling a lawn of black lichen, then five points were selected and averaged to obtain the black lichen pixel count. If it was patchy and less abundant the lasso tool was used on each area individually.</p>
+</div>
+<div id="visualization-and-statistical-analysis" class="section level5">
+<h5>Visualization and statistical analysis:</h5>
+<p>To better visualize the data, I needed to separate it into two groups: data gathered directly on-route and data gathered off-route. The ‘erockpixels’ data was filtered by ‘location’ to make the following four plots. I ended up making two plots for each group to plot lichen color proportions as well as the mean pixel counts for each color of the lichen. I was able to successfully add error bars on the second plot concerning the mean pixel counts, which is why the second plot was constructed for each group.</p>
+<pre class="r"><code>erockpixels &lt;- read.csv(&quot;/Users/bitoFLO/Desktop/Website/content/I4pixelcounts.csv&quot;)
+erockpixels &lt;- erockpixels %&gt;% filter(location == &quot;on&quot;)
+erockpixels &lt;- pivot_longer(erockpixels, c(&quot;black&quot;, &quot;grey&quot;, &quot;orange&quot;, 
+    &quot;darkgreen.brown&quot;, &quot;no.growth&quot;), names_to = &quot;color&quot;, values_to = &quot;values&quot;)
+erockpixels &lt;- select(erockpixels, -c(total.pixels))
+erockpixelssum &lt;- erockpixels %&gt;% group_by(color) %&gt;% dplyr::summarize(mean = mean(values), 
+    sd = sd(values), count = n(), se = sd/sqrt(count)) %&gt;% mutate(meanfrac = mean/sum(mean))
+erockpixelssum &lt;- erockpixelssum[-c(4), ]  #removes &#39;no.growth&#39; for plot clarity
+# On-route: Proportions plot
+ggplot(data = erockpixelssum, aes(x = reorder(color, mean), y = meanfrac, 
+    fill = color)) + geom_bar(stat = &quot;summary&quot;) + scale_y_continuous(limits = c(0, 
+    0.1), breaks = seq(0, 0.1, by = 0.025)) + geom_text(aes(label = round(meanfrac, 
+    4)), position = position_dodge(width = 0.9), vjust = -0.25, 
+    color = &quot;black&quot;) + ggtitle(&quot;On-Route: Lichen Proportions by Color&quot;) + 
+    xlab(&quot;Color of Lichen&quot;) + ylab(&quot;Mean Proportion&quot;) + scale_fill_manual(values = c(orange = &quot;#fcae1e&quot;, 
+    darkgreen.brown = &quot;#5c4827&quot;, grey = &quot;#c0b9ac&quot;, black = &quot;black&quot;))</code></pre>
+<p><img src="/RMInquiry4web_files/figure-html/unnamed-chunk-2-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Off-route: Mean pixel counts plot
+ggplot(data = erockpixelssum, aes(x = reorder(color, mean), y = mean, 
+    fill = color)) + geom_bar(stat = &quot;summary&quot;) + geom_errorbar(aes(y = mean, 
+    ymin = mean - se, ymax = mean + se), width = 0.3, color = &quot;green&quot;) + 
+    scale_y_continuous(limits = c(0, 6e+05), breaks = seq(0, 
+        6e+05, by = 1e+05)) + geom_text(aes(label = round(mean, 
+    2)), position = position_dodge(width = 0.9), vjust = -0.25, 
+    color = &quot;black&quot;) + ggtitle(&quot;On-Route: Lichen Pixel Counts with Error Bars by Color&quot;) + 
+    xlab(&quot;Color of Lichen&quot;) + ylab(&quot;Mean Pixel Count&quot;) + scale_fill_manual(values = c(orange = &quot;#fcae1e&quot;, 
+    darkgreen.brown = &quot;#5c4827&quot;, grey = &quot;#c0b9ac&quot;, black = &quot;black&quot;))</code></pre>
+<p><img src="/RMInquiry4web_files/figure-html/unnamed-chunk-2-2.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>erockpixels &lt;- read.csv(&quot;/Users/bitoFLO/Desktop/Website/content/I4pixelcounts.csv&quot;)
+erockpixels &lt;- erockpixels %&gt;% filter(location == &quot;off&quot;)
+erockpixels &lt;- pivot_longer(erockpixels, c(&quot;black&quot;, &quot;grey&quot;, &quot;orange&quot;, 
+    &quot;darkgreen.brown&quot;, &quot;no.growth&quot;), names_to = &quot;color&quot;, values_to = &quot;values&quot;)
+erockpixels &lt;- select(erockpixels, -c(total.pixels))
+erockpixelssum &lt;- erockpixels %&gt;% group_by(color) %&gt;% dplyr::summarize(mean = mean(values), 
+    sd = sd(values), count = n(), se = sd/sqrt(count)) %&gt;% mutate(meanfrac = mean/sum(mean))
+erockpixelssum &lt;- erockpixelssum[-c(4), ]  #removes no.growth for plot clarity
+# Off-route: Proportions plot
+ggplot(data = erockpixelssum, aes(x = reorder(color, mean), y = meanfrac, 
+    fill = color)) + geom_bar(stat = &quot;summary&quot;) + scale_y_continuous(limits = c(0, 
+    0.1), breaks = seq(0, 0.1, by = 0.025)) + geom_text(aes(label = round(meanfrac, 
+    4)), position = position_dodge(width = 0.9), vjust = -0.25, 
+    color = &quot;black&quot;) + ggtitle(&quot;Off-Route: Lichen Proportions by Color&quot;) + 
+    xlab(&quot;Color of Lichen&quot;) + ylab(&quot;Mean Proportion&quot;) + scale_fill_manual(values = c(orange = &quot;#fcae1e&quot;, 
+    darkgreen.brown = &quot;#5c4827&quot;, grey = &quot;#c0b9ac&quot;, black = &quot;black&quot;))</code></pre>
+<p><img src="/RMInquiry4web_files/figure-html/unnamed-chunk-3-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code># Off-route: Mean pixel counts plot
+ggplot(data = erockpixelssum, aes(x = reorder(color, mean), y = mean, 
+    fill = color)) + geom_bar(stat = &quot;summary&quot;) + geom_errorbar(aes(y = mean, 
+    ymin = mean - se, ymax = mean + se), width = 0.3, color = &quot;green&quot;) + 
+    scale_y_continuous(limits = c(0, 6e+05), breaks = seq(0, 
+        6e+05, by = 1e+05)) + geom_text(aes(label = round(mean, 
+    2)), position = position_dodge(width = 0.9), vjust = -0.25, 
+    color = &quot;black&quot;) + ggtitle(&quot;Off-Route: Lichen Pixel Counts with Error Bars by Color&quot;) + 
+    xlab(&quot;Color of Lichen&quot;) + ylab(&quot;Mean Pixel Count&quot;) + scale_fill_manual(values = c(orange = &quot;#fcae1e&quot;, 
+    darkgreen.brown = &quot;#5c4827&quot;, grey = &quot;#c0b9ac&quot;, black = &quot;black&quot;))</code></pre>
+<p><img src="/RMInquiry4web_files/figure-html/unnamed-chunk-3-2.png" width="672" style="display: block; margin: auto;" /></p>
+<p>Just from eyeballing the proportions plots and taking notice of the number atop each bar that indicates the proportion of the area covered with a particular color of lichen shows there to be more growth on-route than off-route. This is what I was expecting to see as it seems to intuitively make sense, especially if the routes are frequently traveled compared to others in the park. Both black and grey lichen proportions are greater off-route from the data, and this was exciting to see despite the uncertainty introduced when counting the pixels for these two colors. However, it is important to conduct a proper statistical test before making any inferences. The mean pixel count plots show error bars that are fairly large for each color. Collecting more data across routes in Enchanted Rock would help bring these error bars down.</p>
+<p>I used R plyr functions to rename the column headers for the different lichen colors so I could then convert the wide data into a long format. Since I wanted to compare the means between the on-route group and the off-route group and normality was violated after looking at the plots created for each group, I decided on using the Mann-Whitney U test. Since the total pixel count differed for each photo, the proportions needed to be used when conducting statistics. Essentially fractions of lichen cover are being compared in this analysis. Using ‘filter’ I removed the observations for no growth to obtain 64 observations. The null and alternative hypotheses are stated below.</p>
+<p>Ho: The distribution of mean proportions for lichen cover between on-route quadrat placements and off-route quadrat placements are the same.</p>
+<p>Ha: The distribution of mean proportions for lichen cover between on-route quadrat placements and off-route quadrat placements differ significantly.</p>
+<pre class="r"><code>erockprops &lt;- plyr::rename(erockprops, c(prop.black = &quot;black&quot;, 
+    prop.grey = &quot;grey&quot;, prop.orange = &quot;orange&quot;, prop.darkgreen.brown = &quot;darkgreen brown&quot;, 
+    prop.no.growth = &quot;no growth&quot;))
+erockprops &lt;- pivot_longer(erockprops, c(&quot;black&quot;, &quot;grey&quot;, &quot;orange&quot;, 
+    &quot;darkgreen brown&quot;, &quot;no growth&quot;), names_to = &quot;color&quot;, values_to = &quot;props&quot;)
+erockprops &lt;- erockprops %&gt;% filter(str_detect(color, &quot;growth&quot;, 
+    negate = TRUE))
+wilcox.test(erockprops$props ~ erockprops$location)</code></pre>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  erockprops$props by erockprops$location
+## W = 566, p-value = 0.4697
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>The results ended up not coming back significant. The null hypothesis that the mean proportions for lichen cover were equal between the two groups could be not be rejected (W = 566, n = (32,32), p = 0.4697). One cannot conclude from the data on the four routes and statistical test conducted that the lichen cover differs on-route as opposed to off-route.</p>
+<p>The next question concerned how lichen cover differs on-route between traditional and sport climbs. In this case ‘filter’ was used again to remove the off-route data to obtain 32 observations of on-route data. Then, I made another plot in a similar format as the previous two. It made more sense in this instance to plot the total proportions for lichen cover per color for each route in this case. This additional chart once again showed orange-colored lichens are not found in high proportions and that most of the lichen present are black and grey. <em>Orient Express</em> (sport) shows to be the one route that shows considerably lower proportions of lichen when eyeballing although at the same time has the greatest proportion of orange-colored lichens. It is important to take into consideration factors such as sun and surface runoff. <em>Orient Express</em> is very exposed and stays in the sun most of the day whereas routes like <em>Sweat</em> (trad) and <em>Pro Sweat</em> (sport) do not receive nearly as much sun while also receiving much more runoff from the Main Dome. <em>Orange Peel</em> (trad) is about as tucked away as it can be only receiving morning sun briefly. It also seems that higher proportions of black colored lichens appear on these three routes when compared to <em>Orient Express</em>.</p>
+<pre class="r"><code>erockprops2 &lt;- erockprops %&gt;% filter(location == &quot;on&quot;)
+erockprops2 &lt;- erockprops2 %&gt;% mutate(route_clean = str_sub(route, 
+    1, -4))
+erockprops2sum &lt;- erockprops2 %&gt;% group_by(route_clean, color) %&gt;% 
+    summarize(meanprop = mean(props))
+ggplot(erockprops2sum, aes(x = route_clean, y = meanprop, fill = color)) + 
+    geom_bar(position = &quot;stack&quot;, stat = &quot;identity&quot;) + xlab(&quot;Route&quot;) + 
+    ylab(&quot;Mean Proportion per color&quot;) + ggtitle(&quot;Lichen Distribution Between Routes (On-Route)&quot;) + 
+    scale_fill_manual(values = c(orange = &quot;#fcae1e&quot;, `darkgreen brown` = &quot;#5c4827&quot;, 
+        grey = &quot;#c0b9ac&quot;, black = &quot;black&quot;, `no growth` = &quot;#a4877e&quot;))</code></pre>
+<p><img src="/RMInquiry4web_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" /></p>
+<pre class="r"><code>wilcox.test(erockprops2$props ~ erockprops2$style)</code></pre>
+<pre><code>## 
+##  Wilcoxon rank sum test with continuity correction
+## 
+## data:  erockprops2$props by erockprops2$style
+## W = 118.5, p-value = 0.7325
+## alternative hypothesis: true location shift is not equal to 0</code></pre>
+<p>When looking at this plot <em>Pro Sweat</em> is seen with the most lichen cover across the two spots where the quadrat was placed. It is interesting to see how this route is a sport line and shows more lichen cover than the two traditional lines. When looking at <em>Pro Sweat</em> compared to <em>Orient Express</em> (the other sport line) they are complete opposites; a min and a max for total lichen cover among the four routes. I conducted the Mann-Whitney U test once again.</p>
+<p>Ho: The distribution of mean proportions for lichen cover between traditional and sport routes are equal.</p>
+<p>Ha: The distribution of mean proportions for lichen cover between traditional and sport routes differ significantly.</p>
+<p>This time the p-value comes back even higher as the results are once again not statistically significant. The null hypothesis that the mean proportions for lichen cover were equal between the two groups could be not be rejected (W = 118.5, n = (16,16), p = 0.7325).</p>
+</div>
+</div>
+<div id="conclusions" class="section level2">
+<h2>Conclusions</h2>
+<p>I noticed a limitation of this experiment was the fact that lichen growth could only be compared based on proportions. This was because when using the ‘scissor selector’ tool it resulted in having to cut out the quadrat portion of the photo every time for analysis. This made the total pixel count different for every photo and the data could not be compared using frequencies of the counted pixels for each color of lichens. If one were to perform an experiment with a similar experimental design, it would be great to find a way to cut out an area of each photo that contained the same number of pixels so pixel frequencies could be used instead. I was unaware of a process to achieve this goal with Gimp, but using different software entirely could be a potential solution.</p>
+<p>Given the fact the lichens are growing on the surface of a rock in the first place, one might realize these organisms must be accustomed to surviving where others simply cannot. It seems that over time the friction from a rock shoe could pose a threat to these lichens, but the question seems to be about frequency. Crags and routes that are seldom climbed are going to be more adventurous because they have been traveled less. Friable rock may still exist that has not been “cleaned up” by other climbers climbing the route and factors such as dirt, vegetation, and lichen may be seen at greater frequencies. With the influx of new outdoor climbers, it is important to realize the implications that heavy climbing could have on an area. Crags and routes that are frequently trafficked have heavy traces of chalk on the walls and even ground. Trash may also be left by climbers new to the scene after coming from a gym where they are not aware of the “leave no trace” ethic as well as leaving the crag looking better than it was found. If a crag has both easy access, bolted sport routes, and a reputation of being amusing it is likely to be trafficked more heavily. This is why significant differences may not be seen for the climbs analyzed at Enchanted Rock. The Access Fund, which works to conserve the environment and acquire land for climbing mentioned a “Covid climbing boom” in the US as some areas are reporting a 300% increase in visitors. These numbers can have considerable pressures on the environment and even have the potential to jeopardize future access if visitors are irresponsible.</p>
+<p>Because of the reservation system at Enchanted Rock, the fact that most visitors are not coming to do technical rock climbing, and the approach hikes being a minimum of 30 minutes it makes sense that these routes compare more directly to unclimbed portions of rock in the park. The nature of the area being primarily traditionally protected may also bring dismay to newcomers. At Enchanted Rock even if a route is classified as a sport route because of the presence of bolts and lack of natural protection climbers should take caution. This is because climbs here were established from the bottom-up, which meant the first ascensionists were climbing these granite slabs (at the time with no bolts) while they were drilling and placing bolts at the same time! This leads to many bolt placements being much further apart from one another than areas that were bolted while the route developers were safely rappelling to drill and place their bolts. In other words, Enchanted Rock has an “old school” ethic when it comes to climbing and there are climbs throughout the park with portions that merit a do not fall zone because of the consequences that could entail. The same things that could result in a safer experience for climbing may also result in an increased toll on the environment. It will be interesting to see the direction the sport takes in the following years as the new generation of climbers partake in the activity. Classic routes are great, but there is much to be found in the lesser traveled parts of these destinations. One can only hope those going off the beaten path are also those that are inclined to take conservation seriously with the goal of leaving the wilderness as they found it.</p>
+</div>
+<div id="sources" class="section level2">
+<h2>Sources</h2>
+<ol style="list-style-type: decimal">
+<li><p>Holzschuh, A. (2016). Does rock climbing threaten cliff biodiversity? - A critical review. Biological Conservation, 204, 153–162. <a href="https://doi-org.ezproxy.lib.utexas.edu/10.1016/j.biocon.2016.10.010" class="uri">https://doi-org.ezproxy.lib.utexas.edu/10.1016/j.biocon.2016.10.010</a></p></li>
+<li><p>Hepenstrick, D., Bergamini, A., &amp; Holderegger, R. (2020). The distribution of climbing chalk on climbed boulders and its impact on rock‐dwelling fern and moss species. Ecology and Evolution, 10(20), 11362-11371. <a href="doi:http://dx.doi.org.ezproxy.lib.utexas.edu/10.1002/ece3.6773" class="uri">doi:http://dx.doi.org.ezproxy.lib.utexas.edu/10.1002/ece3.6773</a></p></li>
+<li><p>Kuntz, K., &amp; Larson, D. (2006). Influences of Microhabitat Constraints and Rock-Climbing Disturbance on Cliff-Face Vegetation Communities. Conservation Biology, 20(3), 821-832. Retrieved November 9, 2020, from <a href="http://www.jstor.org/stable/3879251" class="uri">http://www.jstor.org/stable/3879251</a></p></li>
+<li><p>Lorite, J., Serrano, F., Lorenzo, A., Cañadas, E. M., Ballesteros, M., &amp; Peñas, J. (2017). Rock climbing alters plant species composition, cover, and richness in Mediterranean limestone cliffs. PLoS ONE, 12(8), 1–14. <a href="https://doi-org.ezproxy.lib.utexas.edu/10.1371/journal.pone.0182414" class="uri">https://doi-org.ezproxy.lib.utexas.edu/10.1371/journal.pone.0182414</a></p></li>
+<li><p>March, S. M., Moreno, M. M., Palomar, G., Tejero, I. P., Haeuser, E., &amp; Pertierra, L. R. (2018). An innovative vegetation survey design in Mediterranean cliffs shows evidence of higher tolerance of specialized rock plants to rock climbing activity. Applied Vegetation Science, 21(2), 289–297. <a href="https://doi-org.ezproxy.lib.utexas.edu/10.1111/avsc.12355" class="uri">https://doi-org.ezproxy.lib.utexas.edu/10.1111/avsc.12355</a></p></li>
+</ol>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<pre class="r"><code>print(erockprops, n = 80)</code></pre>
+<pre><code>## # A tibble: 64 x 5
+##    route                    style location color              props
+##    &lt;fct&gt;                    &lt;fct&gt; &lt;fct&gt;    &lt;chr&gt;              &lt;dbl&gt;
+##  1 sweat 7ft                trad  on       black           0.0390  
+##  2 sweat 7ft                trad  on       grey            0.103   
+##  3 sweat 7ft                trad  on       orange          0       
+##  4 sweat 7ft                trad  on       darkgreen brown 0.0223  
+##  5 sweat 9ft                trad  on       black           0.0202  
+##  6 sweat 9ft                trad  on       grey            0.120   
+##  7 sweat 9ft                trad  on       orange          0.00389 
+##  8 sweat 9ft                trad  on       darkgreen brown 0.0141  
+##  9 sweat right 7ft          trad  off      black           0.0651  
+## 10 sweat right 7ft          trad  off      grey            0.0993  
+## 11 sweat right 7ft          trad  off      orange          0.00544 
+## 12 sweat right 7ft          trad  off      darkgreen brown 0.0402  
+## 13 sweat right 9ft          trad  off      black           0.0873  
+## 14 sweat right 9ft          trad  off      grey            0.105   
+## 15 sweat right 9ft          trad  off      orange          0.00152 
+## 16 sweat right 9ft          trad  off      darkgreen brown 0.00986 
+## 17 prosweat 7ft             sport on       black           0.101   
+## 18 prosweat 7ft             sport on       grey            0       
+## 19 prosweat 7ft             sport on       orange          0       
+## 20 prosweat 7ft             sport on       darkgreen brown 0.0472  
+## 21 prosweat 9ft             sport on       black           0.132   
+## 22 prosweat 9ft             sport on       grey            0.130   
+## 23 prosweat 9ft             sport on       orange          0       
+## 24 prosweat 9ft             sport on       darkgreen brown 0.0400  
+## 25 prosweat right 7ft       sport off      black           0.130   
+## 26 prosweat right 7ft       sport off      grey            0.160   
+## 27 prosweat right 7ft       sport off      orange          0       
+## 28 prosweat right 7ft       sport off      darkgreen brown 0       
+## 29 prosweat right 9ft       sport off      black           0.179   
+## 30 prosweat right 9ft       sport off      grey            0.0297  
+## 31 prosweat right 9ft       sport off      orange          0       
+## 32 prosweat right 9ft       sport off      darkgreen brown 0.0312  
+## 33 orange peel 7ft          trad  on       black           0.139   
+## 34 orange peel 7ft          trad  on       grey            0.000794
+## 35 orange peel 7ft          trad  on       orange          0       
+## 36 orange peel 7ft          trad  on       darkgreen brown 0.000795
+## 37 orange peel 9ft          trad  on       black           0.182   
+## 38 orange peel 9ft          trad  on       grey            0.000140
+## 39 orange peel 9ft          trad  on       orange          0       
+## 40 orange peel 9ft          trad  on       darkgreen brown 0.000202
+## 41 orange peel right 7ft    trad  off      black           0.107   
+## 42 orange peel right 7ft    trad  off      grey            0.0521  
+## 43 orange peel right 7ft    trad  off      orange          0.00145 
+## 44 orange peel right 7ft    trad  off      darkgreen brown 0.00389 
+## 45 orange peel right 9ft    trad  off      black           0.116   
+## 46 orange peel right 9ft    trad  off      grey            0.0118  
+## 47 orange peel right 9ft    trad  off      orange          0       
+## 48 orange peel right 9ft    trad  off      darkgreen brown 0.00115 
+## 49 orient express 7ft       sport on       black           0       
+## 50 orient express 7ft       sport on       grey            0.00580 
+## 51 orient express 7ft       sport on       orange          0.00303 
+## 52 orient express 7ft       sport on       darkgreen brown 0       
+## 53 orient express 9ft       sport on       black           0.00912 
+## 54 orient express 9ft       sport on       grey            0.0180  
+## 55 orient express 9ft       sport on       orange          0.00161 
+## 56 orient express 9ft       sport on       darkgreen brown 0.00909 
+## 57 orient express right 7ft sport off      black           0       
+## 58 orient express right 7ft sport off      grey            0.0313  
+## 59 orient express right 7ft sport off      orange          0.00200 
+## 60 orient express right 7ft sport off      darkgreen brown 0       
+## 61 orient express right 9ft sport off      black           0       
+## 62 orient express right 9ft sport off      grey            0.0966  
+## 63 orient express right 9ft sport off      orange          0.00336 
+## 64 orient express right 9ft sport off      darkgreen brown 0.0268</code></pre>
+</div>

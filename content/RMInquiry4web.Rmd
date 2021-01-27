@@ -72,7 +72,7 @@ Counting the amounts of lichen proved to be trickier than I expected. It also to
 To better visualize the data, I needed to separate it into two groups: data gathered directly on-route and data gathered off-route. The 'erockpixels' data was filtered by 'location' to make the following four plots. I ended up making two plots for each group to plot lichen color proportions as well as the mean pixel counts for each color of the lichen. I was able to successfully add error bars on the second plot concerning the mean pixel counts, which is why the second plot was constructed for each group.
 
 ```{R}
-erockpixels <- read.csv('/Users/bitoFLO/Dropbox/research methods/I4pixelcounts.csv')
+erockpixels <- read.csv('/Users/bitoFLO/Desktop/Website/content/I4pixelcounts.csv')
 erockpixels <- erockpixels %>% filter(location == "on")
 erockpixels <- pivot_longer(erockpixels, c("black", "grey", "orange", "darkgreen.brown", "no.growth"), 
              names_to = "color", values_to = "values")
@@ -98,7 +98,7 @@ ggplot(data = erockpixelssum, aes(x = reorder(color, mean),y = mean, fill = colo
   scale_fill_manual(values = c("orange" = "#fcae1e","darkgreen.brown" = "#5c4827","grey" = "#c0b9ac","black" = "black"))
 ```
 ```{R}
-erockpixels <- read.csv('/Users/bitoFLO/Dropbox/research methods/I4pixelcounts.csv')
+erockpixels <- read.csv('/Users/bitoFLO/Desktop/Website/content/I4pixelcounts.csv')
 erockpixels <- erockpixels %>% filter(location == "off")
 erockpixels <- pivot_longer(erockpixels, c("black", "grey", "orange", "darkgreen.brown", "no.growth"), 
              names_to = "color", values_to = "values")
