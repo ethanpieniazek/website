@@ -9,7 +9,7 @@ title: Projects
 ---
 ## Projects 
 
-I find data analysis and visualization pretty cool:
+I enjoy working in R for data visualization and analysis.
 
 - [The Effect of Climbing on Lichen Growth at Enchanted Rock](/RMInquiry4web/)
 

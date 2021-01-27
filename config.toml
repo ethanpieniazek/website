@@ -21,8 +21,8 @@ theme = "hugo-sustain"
 
 [params.social]
   Email         = "ethanpieniazek@gmail.com"
-  Github        = "ethanpieniazek"
   Facebook      = "ethan.pieniazek"
+  Instagram     = "bitoflo"
 
 ## Main Menu
 [[menu.main]]
