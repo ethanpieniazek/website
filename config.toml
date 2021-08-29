@@ -11,7 +11,7 @@ theme = "hugo-sustain"
   post = "/:year/:month/:day/:slug"
 
 [params]
-  avatar = "rockfellow.png"
+  avatar = "ethanwindsweb.png"
   author = "Ethan Pieniazek"
   description = "Website"
 
@@ -20,23 +20,26 @@ theme = "hugo-sustain"
   custom_js  = []
 
 [params.social]
-  Email         = "ethanpieniazek@gmail.com"
-  Facebook      = "ethan.pieniazek"
-  Instagram     = "bitoflo"
+  Email         = "ethanpieniazek@utexas.edu"
 
 ## Main Menu
 [[menu.main]]
-  name = "blog"
-  weight = 100
-  identifier = "blog"
-  url = "/blog/"
+  name = "resume"
+  identifier = "resume"
+  weight = 200
+  url = "pieniazek_resume_site.pdf"
 [[menu.main]]
   name = "projects"
   identifier = "projects"
-  weight = 200
+  weight = 300
   url = "/projects/"
 [[menu.main]]
-  name = "resume"
-  identifier = "resume"
-  weight = 300
-  url = "resume.pdf"
+  name = "teaching philosophy"
+  identifier = "teaching philosophy"
+  weight = 100
+  url = "teaching_philosophy_web.pdf"
+[[menu.main]]
+  name = "teaching activities"
+  identifier = "teaching activities"
+  weight = 100
+  url = "/teachingact/"
