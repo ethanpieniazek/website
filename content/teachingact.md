@@ -6,7 +6,6 @@ showpagemeta: false
 tags:
 - Teaching Activities
 title: Teaching Activities
-
 ---
 ## General Schedule
-![jpeg](/Users/bitoFLO/Desktop/Website/static/img/IMG_7247.png "Text to show on mouseover").
+![jpeg](/Users/bitoFLO/Desktop/Website/static/img/rrock.png)
