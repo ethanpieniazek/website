@@ -42,4 +42,4 @@ theme = "hugo-sustain"
   name = "teaching activities"
   identifier = "teaching activities"
   weight = 100
-  url = "/teachingact/"
+  url = "teachingact"

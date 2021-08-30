@@ -1,5 +1,5 @@
 ---
-title: 'Modeling'
+title: 'Modeling19'
 author: "Ethan Pieniazek"
 output:
   pdf_document:
@@ -11,7 +11,7 @@ output:
       collapsed: no
       smooth_scroll: yes
 ---
-
+# Modeling Covid-19
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = TRUE, fig.align = "center", warning = F, message = F,
 tidy=TRUE, tidy.opts=list(width.cutoff=60), R.options=list(max.print=100))

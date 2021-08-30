@@ -1,0 +1,164 @@
+---
+showpagemeta: false
+title: "General Schedule"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+## General Schedule
+### Kealing Middle School  
+### Room 113  
+  
+#### <b> *Note: Mr. Pieniazek will be teaching life science on A-days during A3 and A4 </b>
+
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2>Tasneem/Pieniazek A-Day Schedule</h2>
+
+<table>
+  <tr>
+    <th>Class Period</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Class Time</th>
+  </tr>
+  <tr>
+    <td>A1 (Conference)</td>
+    <td>7:30</td>
+    <td>9:00</td>
+    <td>90 min</td>
+  </tr>
+  <tr>
+    <td>Advisory</td>
+    <td>9:04</td>
+    <td>9:36</td>
+    <td>32 min</td>
+  </tr>
+  <tr>
+    <td>A2 (Magnet Science)</td>
+    <td>9:40</td>
+    <td>11:10</td>
+    <td>90 min</td>
+  </tr>
+  <tr>
+    <td>Lunch</td>
+    <td>11:14</td>
+    <td>11:44</td>
+    <td>30 min</td>
+  </tr>
+  <tr>
+    <td>A3 (Magnet Science)</td>
+    <td>11:44</td>
+    <td>13:26</td>
+    <td>90 min</td>
+  </tr>
+  <tr>
+    <td>A4 (Magnet Science)</td>
+    <td>13:30</td>
+    <td>15:00</td>
+    <td>90 min</td>
+  </tr>
+</table>
+
+</body>
+</html>
+
+<html>
+<head>
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+</head>
+<body>
+
+<h2>Tasneem/Pieniazek B-Day Schedule</h2>
+
+<table>
+  <tr>
+    <th>Class Period</th>
+    <th>Start</th>
+    <th>End</th>
+    <th>Class Time</th>
+  </tr>
+  <tr>
+    <td>B5 (Advanced Science)</td>
+    <td>7:30</td>
+    <td>9:00</td>
+    <td>90 min</td>
+  </tr>
+  <tr>
+    <td>Advisory</td>
+    <td>9:04</td>
+    <td>9:36</td>
+    <td>32 min</td>
+  </tr>
+  <tr>
+    <td>B6 (Imagineers Elective)</td>
+    <td>9:40</td>
+    <td>11:10</td>
+    <td>90 min</td>
+  </tr>
+  <tr>
+    <td>Lunch</td>
+    <td>11:14</td>
+    <td>11:44</td>
+    <td>30 min</td>
+  </tr>
+  <tr>
+    <td>B7 (Conference)</td>
+    <td>11:44</td>
+    <td>13:26</td>
+    <td>90 min</td>
+  </tr>
+  <tr>
+    <td>B8 (Imagineers Elective)</td>
+    <td>13:30</td>
+    <td>15:00</td>
+    <td>90 min</td>
+  </tr>
+</table>
+
+</body>
+</html>
+

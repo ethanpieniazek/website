@@ -14,10 +14,13 @@ output:
 
 
 
+<div id="exploratory-data-analysis-with-tidyverse-tools" class="section level2">
+<h2>Exploratory Data Analysis with Tidyverse Tools</h2>
 <p><em>After scouring for hours on Kaggle, spreadsheets, and data.gov for this project in search of two interesting datasets that could be related by a common variable, I ended up stumbling across some interesting stuff while not even actively searching. After reading that “Uncut Gems” had the seventh most f-bombs in movie history, I searched along these lines and found a table on wikipedia that was 144 observations long. The table included the name and year of the film, rank relative to one another concerning the total number of f-bombs, total f-bombs, total minutes, source, and f-bombs per minute. I decided to match this data with information I found on boxofficemojo.com concerning total domestic box office gross, director of film, and whether the film was considered a comedy.</em></p>
 <p><em>After joining by the name of the film I expect to find associations between the year the film was released and the total amount of f-bombs used in the film. I also think comedies will on average have more f-bombs per minute than other genres such as crime drama, biography, and action films. Comparing how the film did in the box office with the total f-bombs as well as with directors that had more than one occurrence in the data also sounds interesting to explore as I noticed Quentin Tarantino, Martin Scorsese, and Spike Lee were each found four times throughout the data. Distributing the films equally into quintiles by year released to then analyze the numeric variables may reveal the years excessive profanity did not deter the film from doing poorly in the box office. A big reason this data was interesting to me is that it made me realize how prevalent data is everywhere, as there is so much of it freely available to access. It was quite overwhelming at first, but after I started to focus on finding data related to an interest of mine, I found it to be not only easier, but also much more interesting.</em></p>
-<div id="joining-two-sets-of-data-into-one" class="section level1">
-<h1>Joining Two Sets of Data into One</h1>
+</div>
+<div id="joining-two-sets-of-data-into-one" class="section level2">
+<h2>Joining Two Sets of Data into One</h2>
 <pre class="r"><code>library(tidyverse)
 library(dplyr)
 films_fbomb &lt;- read.csv(&quot;//Users/bitoFLO/Desktop/Website/content/films fbomb.csv&quot;, 
@@ -26,10 +29,10 @@ films_domestic_box_ &lt;- read.csv(&quot;/Users/bitoFLO/Desktop/Website/content/
     header = T, na.strings = c(&quot;&quot;, &quot;NA&quot;))
 filmsdata &lt;- films_fbomb %&gt;% left_join(films_domestic_box_, by = c(film = &quot;film&quot;)) %&gt;% 
     na.omit() %&gt;% glimpse()</code></pre>
-<pre><code>## Observations: 132
-## Variables: 9
+<pre><code>## Rows: 132
+## Columns: 9
 ## $ rank          &lt;int&gt; 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…
-## $ film          &lt;chr&gt; &quot;The Wolf of Wall Street&quot;, &quot;Summer of Sam&quot;, &quot;Nil by Mou…
+## $ film          &lt;fct&gt; The Wolf of Wall Street, Summer of Sam, Nil by Mouth, C…
 ## $ year          &lt;int&gt; 2013, 1999, 1997, 1995, 2019, 2015, 2007, 2012, 1997, 2…
 ## $ fbombs        &lt;int&gt; 569, 435, 428, 422, 408, 392, 367, 326, 318, 315, 313, …
 ## $ minutes       &lt;int&gt; 180, 142, 128, 178, 135, 167, 118, 109, 99, 122, 106, 1…
@@ -39,16 +42,16 @@ filmsdata &lt;- films_fbomb %&gt;% left_join(films_domestic_box_, by = c(film = 
 ## $ director      &lt;fct&gt; martin.scorsese, spike.lee, gary.oldman, martin.scorses…</code></pre>
 <p><em>I chose to perform a left join because both datasets shared the common variable ‘film’, but the dataset ‘films_domestic_box_’ contained three other variables ‘domesticgross’, ‘director’, and ‘comedy’. I wanted to join this variable to the ‘films_fbombs’ dataset containing the variables ‘rank’, ‘year’, ‘fbombs’, ‘minutes’, and ‘source’ by the variable both sets shared. 11 cases were dropped after using na.omit due to NAs found throughout the joined dataset in the ‘domesticgross’ and ‘source’ columns. I quickly found after knitting complications that I also needed to specify that the blank cells in each dataset also constituted as NAs. The problem with dropping NAs is that important data could be lost, in this case the number 1, 2, 32, 40, 71, 82, etc. ranking films were dropped from further analysis. When analyzing data with only 144 observations to begin with, losing 8% of the data due to NAs is probably not ideal. On the contrary, the reason the cases were dropped is because there was little to no information readily available about domestic box office sales, director, or source where as for all the other films the information was easily found via boxofficemojo.com. Dropping these cases may have worked to actually make ‘filmsdata’ more true to the movies that were available to see in theater, opposed to including some relatively unsuccessful indie films that also had a great deals of f-bombs.</em></p>
 </div>
-<div id="untidying" class="section level1">
-<h1>(Un)tidying</h1>
+<div id="untidying" class="section level2">
+<h2>(Un)tidying</h2>
 <pre class="r"><code>untidyfilms &lt;- filmsdata %&gt;% pivot_longer(contains(&quot;minutes&quot;), 
     names_to = &quot;names&quot;, values_to = &quot;values&quot;) %&gt;% separate(director, 
     into = c(&quot;first&quot;, &quot;last&quot;))
 glimpse(untidyfilms)</code></pre>
-<pre><code>## Observations: 132
-## Variables: 11
+<pre><code>## Rows: 132
+## Columns: 11
 ## $ rank          &lt;int&gt; 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…
-## $ film          &lt;chr&gt; &quot;The Wolf of Wall Street&quot;, &quot;Summer of Sam&quot;, &quot;Nil by Mou…
+## $ film          &lt;fct&gt; The Wolf of Wall Street, Summer of Sam, Nil by Mouth, C…
 ## $ year          &lt;int&gt; 2013, 1999, 1997, 1995, 2019, 2015, 2007, 2012, 1997, 2…
 ## $ fbombs        &lt;int&gt; 569, 435, 428, 422, 408, 392, 367, 326, 318, 315, 313, …
 ## $ source        &lt;fct&gt; SI, PO, SI, FMG, PI, SI, SI, KIM, SI, SI, DR, SI, PO, F…
@@ -60,10 +63,10 @@ glimpse(untidyfilms)</code></pre>
 ## $ values        &lt;int&gt; 180, 142, 128, 178, 135, 167, 118, 109, 99, 122, 106, 1…</code></pre>
 <pre class="r"><code>untidyfilms %&gt;% pivot_wider(names_from = &quot;names&quot;, values_from = &quot;values&quot;) %&gt;% 
     unite(director, first, last, sep = &quot;.&quot;) %&gt;% glimpse()</code></pre>
-<pre><code>## Observations: 132
-## Variables: 9
+<pre><code>## Rows: 132
+## Columns: 9
 ## $ rank          &lt;int&gt; 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18…
-## $ film          &lt;chr&gt; &quot;The Wolf of Wall Street&quot;, &quot;Summer of Sam&quot;, &quot;Nil by Mou…
+## $ film          &lt;fct&gt; The Wolf of Wall Street, Summer of Sam, Nil by Mouth, C…
 ## $ year          &lt;int&gt; 2013, 1999, 1997, 1995, 2019, 2015, 2007, 2012, 1997, 2…
 ## $ fbombs        &lt;int&gt; 569, 435, 428, 422, 408, 392, 367, 326, 318, 315, 313, …
 ## $ source        &lt;fct&gt; SI, PO, SI, FMG, PI, SI, SI, KIM, SI, SI, DR, SI, PO, F…
@@ -73,8 +76,8 @@ glimpse(untidyfilms)</code></pre>
 ## $ minutes       &lt;int&gt; 180, 142, 128, 178, 135, 167, 118, 109, 99, 122, 106, 1…</code></pre>
 <p><em>Often when data is found it is messy, sometimes because it is more convenient for those collecting data to do so in a wide data format. As Grolemund and Wickham state; in order to be “tidy” each variable needs its own column, each observation its own row, and each value its own cell. To make my already tidy data untidy I decided to first use ‘pivot_longer’ to make the column title ‘minutes’ go into a new column called ‘names’ as well as the values to another separate column called ‘values’. This expanded the 9 columns my tidy data had to 10 columns where I then decided to separate ‘director’ into ‘first’ and ‘last’ to obtain 11 columns. Now that the data looked messy enough, I used the ‘pivot_wider’ function to take the names from ‘names’ and the values from ‘values’ so the minutes column could be brought back along with the respective lengths of each film. Finally, I used the ‘unite’ function to bring the director names that were separated into their first name and last name back into a column titled ‘director’, separating them by a period for clarity.</em></p>
 </div>
-<div id="wrangling-and-generating-summary-statistics" class="section level1">
-<h1>Wrangling and Generating Summary Statistics</h1>
+<div id="wrangling-and-generating-summary-statistics" class="section level2">
+<h2>Wrangling and Generating Summary Statistics</h2>
 <div id="section" class="section level3">
 <h3>1.</h3>
 <pre class="r"><code>filmsdata &lt;- filmsdata %&gt;% mutate(fbombspermin = fbombs/minutes)
@@ -92,10 +95,10 @@ filmsdata %&gt;% filter(year &lt; 2000) %&gt;% summarize(avg_fbombspermin = mean
 <pre class="r"><code>filmsdata %&gt;% group_by(film, director, year) %&gt;% select(fbombspermin, 
     fbombs) %&gt;% summarize(avg_fbombspermin = mean(fbombspermin), 
     total_fbombs = sum(fbombs)) %&gt;% arrange(director) %&gt;% glimpse()</code></pre>
-<pre><code>## Observations: 132
-## Variables: 5
+<pre><code>## Rows: 132
+## Columns: 5
 ## Groups: film, director [132]
-## $ film             &lt;chr&gt; &quot;The Commitments&quot;, &quot;Dead Presidents&quot;, &quot;Menace II Soc…
+## $ film             &lt;fct&gt; The Commitments, Dead Presidents, Menace II Society,…
 ## $ director         &lt;fct&gt; alan.parker, albert.hughes, albert.hughes, andrea.ar…
 ## $ year             &lt;int&gt; 1991, 1995, 1993, 2016, 2012, 2010, 2010, 2000, 2017…
 ## $ avg_fbombspermin &lt;dbl&gt; 1.4322034, 1.3193277, 3.1122449, 0.9202454, 1.989690…
@@ -190,7 +193,7 @@ top10comedies</code></pre>
 <pre><code>## # A tibble: 10 x 5
 ## # Groups:   film [10]
 ##    film                             rank fbombs fbombspermin domesticgross
-##    &lt;chr&gt;                           &lt;int&gt;  &lt;int&gt;        &lt;dbl&gt;         &lt;int&gt;
+##    &lt;fct&gt;                           &lt;int&gt;  &lt;int&gt;        &lt;dbl&gt;         &lt;int&gt;
 ##  1 Twin Town                          11    318         3.21        127923
 ##  2 Martin Lawrence Live: Runteldat    14    311         2.75      19184820
 ##  3 Made                               19    291         3.10       5313300
@@ -205,7 +208,7 @@ top10comedies</code></pre>
 <pre><code>## # A tibble: 10 x 5
 ## # Groups:   film [10]
 ##    film                     rank fbombs fbombspermin domesticgross
-##    &lt;chr&gt;                   &lt;int&gt;  &lt;int&gt;        &lt;dbl&gt;         &lt;int&gt;
+##    &lt;fct&gt;                   &lt;int&gt;  &lt;int&gt;        &lt;dbl&gt;         &lt;int&gt;
 ##  1 The Wolf of Wall Street     3    569         3.16     116900694
 ##  2 Summer of Sam               4    435         3.06      19288130
 ##  3 Nil by Mouth                5    428         3.34        266130
@@ -250,8 +253,8 @@ top10comedies</code></pre>
 <p><em>Summarizing with ’n_distinct’ revealed there were 36 distinct years, 10 distinct sources, and 107 distinct directors in the data. ‘Plugged In’ was the source sited with the highest recorded domestic gross sales for a film (“22 Jump Street”) while ‘Family Media Group’ was sited for one that had the lowest domestic gross sales (“Ash Wednesday”). The correlation matrix summarized the data showing the highest correlation existed between ‘fbombs’ and ‘fbombspermin’. Filtering the comedies and non-comedies and then filtering by rank gave way to two cool new data sets, showing the top 10 ranked comedies for f-bomb count and the top 10 ranked non-comedies for f-bomb count. “Twin Tower” took the cake for being the comedy with the most f-bombs (318 f-bombs) while “The Wolf of Wall Street” had the most for a non-comedy (569 f-bombs). The last summary statistic I created was interesting because it mutated a new function (‘directorappearances’) to then summarize and arrange the directors who appeared multiple times in the data set. This was particularly useful for making my first plot.</em></p>
 </div>
 </div>
-<div id="correlation-heapmap-of-numeric-variables" class="section level1">
-<h1>Correlation Heapmap of Numeric Variables</h1>
+<div id="correlation-heapmap-of-numeric-variables" class="section level2">
+<h2>Correlation Heapmap of Numeric Variables</h2>
 <pre class="r"><code>library(reshape2)
 filmsdata_cormatrix &lt;- filmsdata %&gt;% ungroup %&gt;% select(-rank, 
     -film, -year, -source, -comedy, -director, -quintileyr, -directorappearances) %&gt;% 
@@ -267,8 +270,8 @@ ggplot(data = melt_cormatrix, aes(x = Var1, y = Var2, fill = value)) +
 <p><img src="/project1.ethanpieniazekweb_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" />
 <em>This correlation heatmap takes the correlation matrix coded for summary statistic #8 and converts it into a visualization that makes it easier to see the relationships between the numeric variables. The most positive correlation is shown between ‘fbombs’ and ‘fbombspermin’ while the most negative is shown between ‘minutes’ and ‘fbombspermin’. It was important to use the dplyr select function to not include variables R may have thought were numeric upon inspection such as ‘year’, ‘rank’, and ‘quintileyr’. The fact that there is no correlation between ‘fbombs’ and ‘domesticgross’ makes sense, as all movies are rated R and the audience under the age of 17 is greatly limited. All these movies had a great deal of f-bombs (some much more than others) and this did not correlate with movies doing better or worse when it came to domestic box office sales.</em></p>
 </div>
-<div id="first-plot" class="section level1">
-<h1>First Plot</h1>
+<div id="first-plot" class="section level2">
+<h2>First Plot</h2>
 <pre class="r"><code>bigboys &lt;- filmsdata %&gt;% filter(directorappearances == 4) %&gt;% 
     select(film, director, fbombs, year, fbombspermin)
 
@@ -284,8 +287,8 @@ bigboysgg + geom_bar(stat = &quot;identity&quot;, aes(fill = film)) + guides(fil
 <p><img src="/project1.ethanpieniazekweb_files/figure-html/unnamed-chunk-14-1.png" width="672" style="display: block; margin: auto;" />
 <em>It was interesting to find that out of 132 observations there were three directors that each had four films in the data. Martin Scorsese had the film with the most f-bombs in the dataset (“The Wolf of Wall Street) and Spike Lee has the film with the second most f-bombs in the dataset (”Summer of Sam“). Quentin Tarantino had the lowest combined f-bomb count for his four films when compared to Spike Lee’s and Martin Scorsese’s totals (Martin surpassing Spike Lee by nearly 600 f-bombs!). I found it particularly interesting that Tarantino had two pairs of films in the data with very similar f-bomb totals.”Pulp Fiction&quot; had 265 while “Reservoir Dogs” had 269 and “Grindhouse” had 169 while “Four Rooms” had 168. I wish I could have gotten around to watching “Once Upon a Time in Hollywood” again and while tallying the f-bombs as I watched it to see how it compared to his other four films. If the film ended up having greater than 150 f-bombs (highly likely in a nearly three hour Tarantino film considering his past record) then Tarantino would have been the single director with the most films that made the list at five films total.</em></p>
 </div>
-<div id="second-plot" class="section level1">
-<h1>Second Plot</h1>
+<div id="second-plot" class="section level2">
+<h2>Second Plot</h2>
 <pre class="r"><code>complot &lt;- ggplot(filmsdata, aes(x = factor(quintileyr), y = domesticgross)) + 
     geom_bar(stat = &quot;summary&quot;, fun.y = &quot;mean&quot;, aes(fill = comedy)) + 
     scale_y_continuous(name = &quot;Average Revenue in US Dollars&quot;, 
@@ -305,8 +308,8 @@ complot + facet_grid(. ~ comedy, labeller = labeller(comedy = comedylabels)) +
 <p><img src="/project1.ethanpieniazekweb_files/figure-html/unnamed-chunk-15-1.png" width="672" style="display: block; margin: auto;" />
 <em>This plot shows how the comedies compare to the non-comedies when average domestic box office sales is concerned, based on quintile. I made the quintiles to better compare observations as otherwise it would simply be a plot of each year’s average revenue (in some cases just being the revenue one movie brought in rather than a true average since it was the only one for a particular year). Forming five quintiles from the years made it more intuitive to see which range of years brought in the most revenue for these highly vulgar movies. As one can see the fifth quantile has the highest average revenue in both the comedy and non-comedy groups. This may partly be due to the top 3 grossing films in the dataset being from the fifth quartile (“22 Jump Street”, “Straight Outta Compton”, and “The Heat”), but making five quintiles allows for a better assessment of average revenue than if one were to divide the years into 10 quintiles for such a small dataset. The non-comedies consisting of action films, dramas, crime films, etc. on average did better in the box office than the comedies until after 2006. Another interesting trend is that the average revenue for the non-comedies in first quintile starts strong, but tapers off or remains close to the first quintile in later years. The comedies on the other hand always show a considerable increase in average revenue as the quintiles proceed to 2013-2019, the quintile with highest revenue in the comedy group as well as when compared to the non-comedies.</em></p>
 </div>
-<div id="clustering" class="section level1">
-<h1>Clustering</h1>
+<div id="clustering" class="section level2">
+<h2>Clustering</h2>
 <pre class="r"><code>library(cluster)
 filmsclust &lt;- filmsdata %&gt;% select(fbombs, minutes, domesticgross, 
     fbombspermin)

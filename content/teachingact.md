@@ -7,5 +7,6 @@ tags:
 - Teaching Activities
 title: Teaching Activities
 ---
-## General Schedule
-![jpeg](/Users/bitoFLO/Desktop/Website/static/img/rrock.png)
+## Teaching Activities
+- [General Schedule](/general_schedule/)
+- [September 7-10 LPS - Earth Systems](/pieniazek_resume_sitetest.pdf)

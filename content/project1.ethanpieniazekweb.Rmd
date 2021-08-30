@@ -11,7 +11,7 @@ output:
   pdf_document:
     toc: no
 ---
-
+## Exploratory Data Analysis with Tidyverse Tools
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, eval = TRUE, fig.align = "center", warning = F, message = F,
 tidy=TRUE, tidy.opts=list(width.cutoff=60), R.options=list(max.print=100))
@@ -20,7 +20,7 @@ tidy=TRUE, tidy.opts=list(width.cutoff=60), R.options=list(max.print=100))
 
 *After joining by the name of the film I expect to find associations between the year the film was released and the total amount of f-bombs used in the film. I also think comedies will on average have more f-bombs per minute than other genres such as crime drama, biography, and action films. Comparing how the film did in the box office with the total f-bombs as well as with directors that had more than one occurrence in the data also sounds interesting to explore as I noticed Quentin Tarantino, Martin Scorsese, and Spike Lee  were each found four times throughout the data. Distributing the films equally into quintiles by year released to then analyze the numeric variables may reveal the years excessive profanity did not deter the film from doing poorly in the box office. A big reason this data was interesting to me is that it made me realize how prevalent data is everywhere, as there is so much of it freely available to access. It was quite overwhelming at first, but after I started to focus on finding data related to an interest of mine, I found it to be not only easier, but also much more interesting.*
 
-# Joining Two Sets of Data into One
+## Joining Two Sets of Data into One
 ```{R}
 library(tidyverse)
 library(dplyr)
@@ -30,7 +30,7 @@ filmsdata <- films_fbomb %>%left_join(films_domestic_box_, by=c("film" = "film")
 ```
 *I chose to perform a left join because both datasets shared the common variable 'film', but the dataset 'films_domestic_box_' contained three other variables 'domesticgross', 'director', and 'comedy'. I wanted to join this variable to the 'films_fbombs' dataset containing the variables 'rank', 'year', 'fbombs', 'minutes', and 'source' by the variable both sets shared. 11 cases were dropped after using na.omit due to NAs found throughout the joined dataset in the 'domesticgross' and 'source' columns. I quickly found after knitting complications that I also needed to specify that the blank cells in each dataset also constituted as NAs. The problem with dropping NAs is that important data could be lost, in this case the number 1, 2, 32, 40, 71, 82, etc. ranking films were dropped from further analysis. When analyzing data with only 144 observations to begin with, losing 8% of the data due to NAs is probably not ideal. On the contrary, the reason the cases were dropped is because there was little to no information readily available about domestic box office sales, director, or source where as for all the other films the information was easily found via boxofficemojo.com. Dropping these cases may have worked to actually make 'filmsdata' more true to the movies that were available to see in theater, opposed to including some relatively unsuccessful indie films that also had a great deals of f-bombs.* 
 
-# (Un)tidying
+## (Un)tidying
 ```{R}
 untidyfilms <- filmsdata %>% pivot_longer(contains("minutes"),names_to="names",values_to="values") %>% separate(director, into = c("first", "last"))
 glimpse(untidyfilms)
@@ -38,7 +38,7 @@ untidyfilms %>% pivot_wider(names_from="names",values_from = "values") %>% unite
 ```
 *Often when data is found it is messy, sometimes because it is more convenient for those collecting data to do so in a wide data format. As Grolemund and Wickham state; in order to be “tidy” each variable needs its own column, each observation its own row, and each value its own cell. To make my already tidy data untidy I decided to first use 'pivot_longer' to make the column title 'minutes' go into a new column called 'names' as well as the values to another separate column called 'values'. This expanded the 9 columns my tidy data had to 10 columns where I then decided to separate 'director' into 'first' and 'last' to obtain 11 columns. Now that the data looked messy enough, I used the 'pivot_wider' function to take the names from 'names' and the values from 'values' so the minutes column could be brought back along with the respective lengths of each film. Finally, I used the 'unite' function to bring the director names that were separated into their first name and last name back into a column titled 'director', separating them by a period for clarity.*
 
-# Wrangling and Generating Summary Statistics
+## Wrangling and Generating Summary Statistics
 ### 1.
 ```{R}
 filmsdata <- filmsdata %>% mutate(fbombspermin=fbombs/minutes)
@@ -91,7 +91,7 @@ filmsdata <- filmsdata %>% group_by(director) %>% mutate(directorappearances = n
 
 *Summarizing with ’n_distinct’ revealed there were 36 distinct years, 10 distinct sources, and 107 distinct directors in the data. ‘Plugged In’ was the source sited with the highest recorded domestic gross sales for a film (“22 Jump Street”) while ‘Family Media Group’ was sited for one that had the lowest domestic gross sales (“Ash Wednesday”). The correlation matrix summarized the data showing the highest correlation existed between ‘fbombs’ and ‘fbombspermin’. Filtering the comedies and non-comedies and then filtering by rank gave way to two cool new data sets, showing the top 10 ranked comedies for f-bomb count and the top 10 ranked non-comedies for f-bomb count. “Twin Tower” took the cake for being the comedy with the most f-bombs (318 f-bombs) while “The Wolf of Wall Street” had the most for a non-comedy (569 f-bombs). The last summary statistic I created was interesting because it mutated a new function (‘directorappearances’) to then summarize and arrange the directors who appeared multiple times in the data set. This was particularly useful for making my first plot.* 
 
-# Correlation Heapmap of Numeric Variables
+## Correlation Heapmap of Numeric Variables
 ```{R}
 library(reshape2)
 filmsdata_cormatrix <- filmsdata  %>% ungroup%>% select(-rank,-film,-year,-source,-comedy,-director,-quintileyr,-directorappearances) %>% cor()
@@ -108,7 +108,7 @@ ggplot(data = melt_cormatrix, aes(x=Var1, y=Var2, fill=value)) +
 ```
 *This correlation heatmap takes the correlation matrix coded for summary statistic #8 and converts it into a visualization that makes it easier to see the relationships between the numeric variables. The most positive correlation is shown between 'fbombs' and 'fbombspermin' while the most negative is shown between 'minutes' and 'fbombspermin'. It was important to use the dplyr select function to not include variables R may have thought were numeric upon inspection such as 'year', 'rank', and 'quintileyr'. The fact that there is no correlation between 'fbombs' and 'domesticgross' makes sense, as all movies are rated R and the audience under the age of 17 is greatly limited. All these movies had a great deal of f-bombs (some much more than others) and this did not correlate with movies doing better or worse when it came to domestic box office sales.*
 
-# First Plot
+## First Plot
 ```{R}
 bigboys <- filmsdata %>% filter(directorappearances == 4) %>% select(film,director,fbombs,year,fbombspermin)
 
@@ -124,7 +124,7 @@ bigboysgg +geom_bar(stat = "identity", aes(fill = film)) +
 ```
 *It was interesting to find that out of 132 observations there were three directors that each had four films in the data. Martin Scorsese had the film with the most f-bombs in the dataset ("The Wolf of Wall Street) and Spike Lee has the film with the second most f-bombs in the dataset ("Summer of Sam"). Quentin Tarantino had the lowest combined f-bomb count for his four films when compared to Spike Lee's and Martin Scorsese's totals (Martin surpassing Spike Lee by nearly 600 f-bombs!). I found it particularly interesting that Tarantino had two pairs of films in the data with very similar f-bomb totals. "Pulp Fiction" had 265 while "Reservoir Dogs" had 269 and "Grindhouse" had 169 while "Four Rooms" had 168. I wish I could have gotten around to watching “Once Upon a Time in Hollywood” again and while tallying the f-bombs as I watched it to see how it compared to his other four films. If the film ended up having greater than 150 f-bombs (highly likely in a nearly three hour Tarantino film considering his past record) then Tarantino would have been the single director with the most films that made the list at five films total.*
 
-# Second Plot
+## Second Plot
 ```{R}
 complot <- ggplot(filmsdata, aes(x = factor(quintileyr), y = domesticgross)) +
   geom_bar(stat="summary",fun.y="mean",aes(fill=comedy)) +
@@ -143,7 +143,7 @@ complot + facet_grid(.~comedy, labeller=labeller(comedy = comedylabels)) +
 ```
 *This plot shows how the comedies compare to the non-comedies when average domestic box office sales is concerned, based on quintile. I made the quintiles to better compare observations as otherwise it would simply be a plot of each year's average revenue (in some cases just being the revenue one movie brought in rather than a true average since it was the only one for a particular year). Forming five quintiles from the years made it more intuitive to see which range of years brought in the most revenue for these highly vulgar movies. As one can see the fifth quantile has the highest average revenue in both the comedy and non-comedy groups. This may partly be due to the top 3 grossing films in the dataset being from the fifth quartile ("22 Jump Street", "Straight Outta Compton", and "The Heat"), but making five quintiles allows for a better assessment of average revenue than if one were to divide the years into 10 quintiles for such a small dataset. The non-comedies consisting of action films, dramas, crime films, etc. on average did better in the box office than the comedies until after 2006. Another interesting trend is that the average revenue for the non-comedies in first quintile starts strong, but tapers off or remains close to the first quintile in later years. The comedies on the other hand always show a considerable increase in average revenue as the quintiles proceed to 2013-2019, the quintile with highest revenue in the comedy group as well as when compared to the non-comedies.* 
 
-# Clustering
+## Clustering
 ```{R}
 library(cluster)
 filmsclust <- filmsdata %>% select(fbombs,minutes,domesticgross,fbombspermin)
