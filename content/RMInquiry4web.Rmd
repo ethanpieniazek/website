@@ -3,14 +3,14 @@ title: 'The Effect of Climbing on Lichen Growth at Enchanted Rock'
 author: "Ethan Pieniazek"
 date: "December 11, 2020"
 output:
-  pdf_document:
-    toc: no
-  '': default
   html_document:
     toc: yes
     toc_float:
       collapsed: no
       smooth_scroll: yes
+  '': default
+  pdf_document:
+    toc: no
 ---
 
 ```{r setup, include=FALSE}
@@ -47,7 +47,7 @@ It is important to address the safety concerns that accompany collecting data in
 ##### Route selection:  
 The four established routes were all of classic status for the area with a difficulty ranging from easy to moderate. This classic status practically ensures the routes are frequently climbed when climbers visit the area. Data were collected for an easy traditionally protected crack (*Sweat*) and a moderate sport route (*Pro Sweat*) both located on News Wall of the Main Dome area of Enchanted Rock. The other two routes existed in Echo Canyon; a separate area technically considered to still be a part of the Main Dome complex. In Echo Canyon, a moderate traditionally protected crack (*Orange Peel*), as well as a moderate sport route (*Orient Express*), were the subject of interest. Below is a map courtesy of Google Maps of the area with the two areas marked along with the trail entrance that starts at the main parking lot.
 <p>
-![cap](/Users/bitoFLO/Dropbox/research methods/inquiry 4 photos/Screen Shot 2020-11-23 at 20.05.47.png)
+![cap](/Users/bitoFLO/Desktop/Website/content/Screen Shot 2020-11-23 at 20.05.47.png)
 <p>
 	
 ##### Data collection:  
