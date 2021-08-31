@@ -12,7 +12,7 @@ theme = "hugo-sustain"
 
 [params]
   avatar = "ethanwindsweb.png"
-  author = "Ethan Pieniazek"
+  author = "Mr. Ethan Pieniazek"
   description = "Website"
 
   # Custom assets can be linked with their paths relative to static/
