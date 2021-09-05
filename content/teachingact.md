@@ -9,4 +9,4 @@ title: Teaching Activities
 ---
 ## Teaching Activities
 - [General Schedule](/general_schedule/)
-- [September 7-10 LPS - Earth Systems](/pieniazek_resume_sitetest.pdf)
+- [September 7-10 LPS - Earth Systems](/Pieniazek_LPS_week1.pdf)

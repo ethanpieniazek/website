@@ -75,7 +75,7 @@ tr:nth-child(even) {
   </tr>
   <tr>
     <td>A3 (Magnet Science)</td>
-    <td>11:44</td>
+    <td>11:48</td>
     <td>13:26</td>
     <td>90 min</td>
   </tr>
@@ -147,7 +147,7 @@ tr:nth-child(even) {
   </tr>
   <tr>
     <td>B7 (Conference)</td>
-    <td>11:44</td>
+    <td>11:48</td>
     <td>13:26</td>
     <td>90 min</td>
   </tr>
