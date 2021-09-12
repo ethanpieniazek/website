@@ -9,4 +9,5 @@ title: Teaching Activities
 ---
 ## Teaching Activities
 - [General Schedule](/general_schedule/)
-- [September 7-10 LPS - Earth Systems](/Pieniazek_LPS_week1.pdf)
+- [September 7-10 LPS - Heat Transfer](/Pieniazek_LPS_week1.pdf)
+- [September 13-17 LPS - Coriolis Effect, Global Scale Convection, and Intro to Phase Changes](/Pieniazek_LPS_week2.pdf)
