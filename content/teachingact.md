@@ -15,3 +15,4 @@ title: Teaching Activities
 - [September 27-October 1 LPS - Phase Changes and Interpreting Weather Maps](/Pieniazek_LPS_week4.pdf)
 - [October 4-8 LPS - Comparing Weather Maps](/Pieniazek_LPS_week5.pdf)
 - [October 12-15 LPS - Weather Forecast Project](/Pieniazek_LPS_week6.pdf)
+- [October 18-22 LPS - Weather Forecast PBI](/Pieniazek_LPS_week7.pdf)
