@@ -16,3 +16,4 @@ title: Teaching Activities
 - [October 4-8 LPS - Comparing Weather Maps](/Pieniazek_LPS_week5.pdf)
 - [October 12-15 LPS - Weather Forecast Project](/Pieniazek_LPS_week6.pdf)
 - [October 18-22 LPS - Weather Forecast PBI](/Pieniazek_LPS_week7.pdf)
+- [October 25-29 LPS - Weather Forecast PBI and Climate Change](/Pieniazek_LPS_week8.pdf)
