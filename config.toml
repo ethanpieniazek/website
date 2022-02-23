@@ -11,7 +11,7 @@ theme = "hugo-sustain"
   post = "/:year/:month/:day/:slug"
 
 [params]
-  avatar = "ethanwindsweb.png"
+  avatar = "pieniazekpicture.png"
   author = "Mr. Ethan Pieniazek"
   description = "Website"
 
