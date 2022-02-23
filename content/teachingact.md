@@ -19,4 +19,4 @@ title: Teaching Activities
 - [November 1-5 LPS - Day and Night](/Pieniazek_LPS_week9.pdf)
 - [November 8-12 LPS - Day and Night Week 2](/Pieniazek_LPS_week10.pdf)
 - [November 15-19 LPS - Lunar Phases](/Pieniazek_LPS_week11.pdf)
-- [November 29 - December 3 LPS - Tides](Pieniazek_LPS_week12.pdf)
+- [November 29 - December 3 LPS - Tides](/Pieniazek_LPS_week12.pdf)
